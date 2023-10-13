@@ -99,7 +99,12 @@ function collide(collision) {
             (other.type === "crasher" && instance.type === "food"):
             firmcollide(instance, other);
             break;
-        case instance.team !== other.team || instance.team === other.team:
+        case instance.team !== other.team ||
+            (instance.team === other.team &&
+            (
+                other.healer ||
+                instance.healer
+            )):
             // Exits if the aura is not hitting a boss or tank
             if (instance.type === "aura") {
                 if (!(other.type === "tank" || other.type === "miniboss" || other.type == "food")) return;
@@ -115,25 +120,21 @@ function collide(collision) {
             break;
         case instance.settings.hitsOwnType === other.settings.hitsOwnType:
             switch (instance.settings.hitsOwnType) {
-                case 'assembler': {
+                case 'assembler':
                     if (instance.assemblerLevel == null) instance.assemblerLevel = 1;
                     if (other.assemblerLevel == null) other.assemblerLevel = 1;
 
                     const [target1, target2] = (instance.id > other.id) ? [instance, other] : [other, instance];
+                    const better = state => target1[state] > target2[state] ? target1[state] : target2[state];
 
                     if (
-                        target2.assemblerLevel >= 10 || target1.assemblerLevel >= 10 ||
-                        target1.isDead() || target2.isDead() ||
-                        target1.parent.id != target2.parent.id &&
-                        target1.parent.id != null &&
-                        target2.parent.id != null // idk why
+                        target1.assemblerLevel >= 10 ||
+                        target2.assemblerLevel >= 10 ||
+                        target1.isDead() ||
+                        target2.isDead()
                     ) {
                         advancedcollide(instance, other, false, false, false); // continue push
                         break;
-                    }
-
-                    const better = (state) => {
-                        return target1[state] > target2[state] ? target1[state] : target2[state];
                     }
 
                     target1.assemblerLevel = Math.min(target2.assemblerLevel + target1.assemblerLevel, 10);
@@ -144,15 +145,14 @@ function collide(collision) {
                     target1.DAMAGE = better('DAMAGE') * 1.1;
 
                     target2.kill();
-                    setTimeout(() => {
-                        if (target2) {
-                            target2.destroy(); // walls glitch
-                        }
-                    }, 1000);
+                    // setTimeout(() => {
+                    //     if (target2) {
+                    //         target2.destroy(); // walls glitch
+                    //     }
+                    // }, 1000);
 
                     for (let i = 0; i < 10; ++i) {
-                        const { x, y } = target1;
-                        const o = new Entity({ x, y }, target1);
+                        const o = new Entity({ x: target1.x, y: target1.y }, target1);
                         o.define(Class.assemblerEffect);
                         o.team = target1.team;
                         o.color = target1.color;
@@ -161,7 +161,6 @@ function collide(collision) {
                         o.refreshBodyAttributes();
                         o.life();
                     }
-                } // don't break
                 case "push":
                     advancedcollide(instance, other, false, false, false);
                     break;
