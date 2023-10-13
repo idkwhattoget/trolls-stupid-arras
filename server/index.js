@@ -76,7 +76,7 @@ function collide(collision) {
                     break;
                 default:
                     let a = entity.type === "bullet" ? 1 + 10 / (entity.velocity.length + 10) : 1;
-                    advancedcollide(wall, entity, false, false, a);
+                    advancedcollide(wall, entity, false, false, false, a);
                     break;
             }
             break;
@@ -92,26 +92,23 @@ function collide(collision) {
                     entity.settings.hitsOwnType === "never"
                 ) return;
                 let a = 1 + 10 / (Math.max(entity.velocity.length, pusher.velocity.length) + 10);
-                advancedcollide(pusher, entity, false, false, a);
+                advancedcollide(pusher, entity, false, false, false, a);
             }
             break;
         case (instance.type === "crasher" && other.type === "food") ||
             (other.type === "crasher" && instance.type === "food"):
             firmcollide(instance, other);
             break;
-        case instance.team !== other.team ||
-            (instance.team === other.team &&
-            (
-                instance.healer ||
-                other.healer
-            )):
+        case instance.team !== other.team || instance.team === other.team:
             // Exits if the aura is not hitting a boss or tank
             if (instance.type === "aura") {
                 if (!(other.type === "tank" || other.type === "miniboss" || other.type == "food")) return;
             } else if (other.type === "aura") {
                 if (!(instance.type === "tank" || instance.type === "miniboss" || instance.type == "food")) return;
             }
-            advancedcollide(instance, other, true, true);
+            if (other.healer && instance.healer) advancedcollide(instance, other, false, false, true);
+            else if (instance.team == other.team) advancedcollide(instance, other, other.healer, instance.healer, true);
+            else if (instance.team != other.team) advancedcollide(instance, other, !other.healer, !instance.healer, true);
             break;
         case instance.settings.hitsOwnType == "never" ||
             other.settings.hitsOwnType == "never":
@@ -131,7 +128,7 @@ function collide(collision) {
                         target1.parent.id != null &&
                         target2.parent.id != null // idk why
                     ) {
-                        advancedcollide(instance, other, false, false); // continue push
+                        advancedcollide(instance, other, false, false, false); // continue push
                         break;
                     }
 
@@ -166,7 +163,7 @@ function collide(collision) {
                     }
                 } // don't break
                 case "push":
-                    advancedcollide(instance, other, false, false);
+                    advancedcollide(instance, other, false, false, false);
                     break;
                 case "hard":
                     firmcollide(instance, other);
