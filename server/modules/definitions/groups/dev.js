@@ -92,38 +92,62 @@ exports.bosses = {
 exports.sentries = {
     PARENT: ["menu"],
     LABEL: "Sentries",
+    COLOR: 5,
+    SHAPE: 3.5,
+    TURRETS: [
+        {
+            POSITION: [9, 0, 0, 0, 360, 1],
+            TYPE: "genericEntity",
+        },
+    ],
 };
 exports.elites = {
     PARENT: ["menu"],
     LABEL: "Elites",
+    COLOR: 5,
+    SHAPE: 3.5,
 };
 exports.mysticals = {
     PARENT: ["menu"],
     LABEL: "Mysticals",
+    COLOR: 13,
+    SHAPE: 4,
 };
 exports.nesters = {
     PARENT: ["menu"],
     LABEL: "Nesters",
+    COLOR: 14,
+    SHAPE: 5.5,
 };
 exports.rogues = {
     PARENT: ["menu"],
     LABEL: "Rogues",
+    COLOR: 17,
+    SHAPE: 6,
 };
 exports.terrestrials = {
     PARENT: ["menu"],
     LABEL: "Terrestrials",
+    COLOR: 2,
+    SHAPE: 7,
 };
 exports.celestials = {
     PARENT: ["menu"],
     LABEL: "Celestials",
+    COLOR: 1,
+    SHAPE: 9,
 };
 exports.eternals = {
     PARENT: ["menu"],
     LABEL: "Eternals",
+    COLOR: 0,
+    SHAPE: 11,
 };
 exports.devBosses = {
     PARENT: ["menu"],
     LABEL: "Developers",
+    COLOR: 1,
+    SHAPE: 4,
 };
 
 exports.tanks = {
@@ -134,13 +158,43 @@ exports.legacyTanks = {
     PARENT: ["menu"],
     LABEL: "Legacy Tanks",
 };
-exports.miscTanks = {
+exports.specialTanks = {
     PARENT: ["menu"],
-    LABEL: "Misc Tanks",
+    LABEL: "Special Tanks",
+};
+exports.bases = {
+    PARENT: ["menu"],
+    LABEL: "Bases",
+    TURRETS: [
+        {
+            POSITION: [22, 0, 0, 0, 360, 0],
+            TYPE: "dominationBody",
+        },
+    ],
 };
 exports.dominators = {
     PARENT: ["menu"],
     LABEL: "Dominators",
+    TURRETS: [
+        {
+            POSITION: [22, 0, 0, 0, 360, 0],
+            TYPE: "dominationBody",
+        },
+    ],
+};
+exports.sanctuaries = {
+    PARENT: ["menu"],
+    LABEL: "Sanctuaries",
+    TURRETS: [
+        {
+            POSITION: [22, 0, 0, 0, 360, 0],
+            TYPE: "dominationBody",
+        },
+        {
+            POSITION: [13, 0, 0, 0, 360, 1],
+            TYPE: "healerSymbol",
+        },
+    ],
 };
 exports.funTanks = {
     PARENT: ["menu"],
@@ -641,7 +695,7 @@ exports.florr_tank_smile = {
 exports.florr_tank = {
     PARENT: "genericTank",
     COLOR: 'yellow',
-    LABEL: 'Whirlwind',
+    LABEL: 'Flower',
     STAT_NAMES: {
         BODY_DAMAGE: 'Flower Thorns',
         BULLET_SPEED: 'Petal Speed',
@@ -875,7 +929,7 @@ exports.weirdAutoBasic = {
 exports.levels = {
     PARENT: ["menu"],
     LABEL: "Level Switcher",
-    UPGRADES_TIER_0: ["developer"]
+    UPGRADES_TIER_0: []
 };
 for (let i = 0; i < 15; i++) {
     let LEVEL = i * c.TIER_MULTIPLIER;
@@ -890,7 +944,7 @@ for (let i = 0; i < 15; i++) {
 exports.teams = {
     PARENT: ["menu"],
     LABEL: "Team Switcher",
-    UPGRADES_TIER_0: ["developer"]
+    UPGRADES_TIER_0: []
 };
 for (let i = 1; i <= 8; i++) {
     let TEAM = i;
@@ -918,11 +972,13 @@ exports.teams.UPGRADES_TIER_0.push('Team' + TEAM_ROOM, 'Team' + TEAM_ENEMIES);
 
 // DEV "UPGRADE PATHS"
 exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "tools"];
-    exports.tanks.UPGRADES_TIER_0 = ["basic", "healer", "dominators", "miscTanks", "legacyTanks", "funTanks", "testingTanks"];
-        exports.dominators.UPGRADES_TIER_0 = ["dominator", "destroyerDominator", "gunnerDominator", "trapperDominator"];
-        exports.miscTanks.UPGRADES_TIER_0 = ["baseProtector", "mothership", "arenaCloser", "antiTankMachineGun"];
-        exports.legacyTanks.UPGRADES_TIER_0 = ["flail", "oldSpreadshot", "oldBentBoomer", "quadBuilder", "weirdSpike", "master", "oldCommander", "blunderbuss", "oldRimfire", "autoTrapper", "oldDreadnought", "mender", "prodigy"];
-        exports.funTanks.UPGRADES_TIER_0 = ["florr_tank", "vanquisher", "armyOfOne", "godbasic", "maximumOverdrive", "mummifier", "auraBasic", "auraHealer", "weirdAutoBasic", "ghoster", "switcheroo"];
+    exports.tanks.UPGRADES_TIER_0 = ["basic", "healer", "specialTanks", "legacyTanks", "funTanks", "testingTanks"];
+	exports.specialTanks.UPGRADES_TIER_0 = ["arenaCloser", "bases", "mothership"];
+        exports.bases.UPGRADES_TIER_0 = ["baseProtector", "dominators", "sanctuaries", "antiTankMachineGun"];
+                exports.dominators.UPGRADES_TIER_0 = ["dominator", "destroyerDominator", "gunnerDominator", "trapperDominator"];
+                exports.sanctuaries.UPGRADES_TIER_0 = [];
+        exports.legacyTanks.UPGRADES_TIER_0 = ["weirdSpike", "oldBentBoomer", "quadBuilder", "master", "blunderbuss", "oldRimfire", "oldSpreadshot", "oldCommander", "autoTrapper", "prodigy", "mender", "tetraGunner", "corvette", "whirlwind", "flail"];
+        exports.funTanks.UPGRADES_TIER_0 = ["florr_tank", "vanquisher", "armyOfOne", "godbasic", "maximumOverdrive", "mummifier", "auraBasic", "auraHealer", "weirdAutoBasic", "ghoster", "switcheroo", "tracker3"];
         exports.testingTanks.UPGRADES_TIER_0 = ["diamondShape", "rotatedTrap", "colorMan", "miscTest", "mmaTest"];
 
     exports.bosses.UPGRADES_TIER_0 = ["sentries", "elites", "mysticals", "nesters", "rogues", "terrestrials", "celestials", "eternals", "devBosses"];
@@ -936,4 +992,5 @@ exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "tools"];
         exports.eternals.UPGRADES_TIER_0 = ["ragnarok", "kronos"];
         exports.devBosses.UPGRADES_TIER_0 = ["taureonBoss", "tgsBoss"];
 
-    exports.tools.UPGRADES_TIER_0 = ["spectator", "eggGenerator", "levels", "teams"];
+    exports.tools.UPGRADES_TIER_0 = ["spectator", "levels", "teams", "eggGenerator"];
+
