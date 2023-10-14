@@ -152,7 +152,7 @@ function collide(collision) {
                     // }, 1000);
 
                     for (let i = 0; i < 10; ++i) {
-                        const o = new Entity({ x: target1.x, y: target1.y }, target1);
+                        const o = new Entity(target1, target1);
                         o.define(Class.assemblerEffect);
                         o.team = target1.team;
                         o.color = target1.color;
