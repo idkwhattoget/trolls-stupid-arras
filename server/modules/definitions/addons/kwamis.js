@@ -6,9 +6,18 @@
 const { combineStats, makeDeco } = require('../facilitators.js');
 const { base, smshskl } = require('../constants.js');
 const g = require('../gunvals.js');
-const body = {
-    SPEED: base.SPEED * 0.7,
-    HEALTH: base.HEALTH * 25,
+const bodyBooster = {
+    SPEED: base.SPEED * 0.3,
+    HEALTH: base.HEALTH * 28,
+	SHIELD: base.SHIELD * 4,
+	REGEN: base.REGEN * 4,
+	RESIST: base.RESIST * 4,
+	DENSITY: base.DENSITY * 4,
+    FOV: base.FOV * 1.5,
+};
+const bodyOcto = {
+    SPEED: base.SPEED * 0.1,
+    HEALTH: base.HEALTH * 20,
 	SHIELD: base.SHIELD * 4,
 	REGEN: base.REGEN * 4,
 	RESIST: base.RESIST * 4,
@@ -77,7 +86,7 @@ class io_ability extends IO {
             if (
                 util.getDistance(this.body, e) < this.limit &&
                 !e.skipLife &&
-                (e.type == "tank" || e.type == "miniboss" || e.type == "food") &&
+                (e.type == "tank" || e.type == "miniboss" || e.type == "food" || e.type == "crasher") &&
                 e.master.id != this.body.id &&
                 e.settings.hitsOwnType != "pushOnlyTeam" &&
                 e.alpha != 0
@@ -89,7 +98,7 @@ class io_ability extends IO {
                     case "heal":
                         if (e.team == this.body.team) this.logged.push(e);
                         break;
-                    case "damage":
+                    case "destroy":
                         if (e.team != this.body.team) this.logged.push(e);
                         break;
                 }
@@ -128,7 +137,7 @@ class io_ability extends IO {
                     case "heal":
                         o.define(Class.tikkiAbility);
                         break;
-                    case "damage":
+                    case "destroy":
                         o.define(Class.plaggAbility);
                         break;
                 }
@@ -158,7 +167,7 @@ class io_ability extends IO {
                     e.shield.amount = e.shield.max;
                     e.health.amount = e.health.max;
                     break;
-                case "damage":
+                case "destroy":
                     if (e.health.amount < e.health.max * 0.2) e.kill();
                     else {
                         e.health.amount *= 0.1;
@@ -187,7 +196,7 @@ class io_ability extends IO {
     }
     activate() {
         this.check++;
-        if (this.check > 2000 / room.cycleSpeed && this.active) {
+        if (this.check > 50 && this.active) {
             this.ability.used++;
             switch (this.ability.used) {
                 case 1:
@@ -196,7 +205,7 @@ class io_ability extends IO {
                 case 3:
                     this.ability.used = 0;
                     this.active = false;
-                    this.ability.timer = 1 * 60000 / room.cycleSpeed;
+                    this.ability.timer = 1;
                     this.do();
                     this.destroyTurrets();
                     break;
@@ -209,50 +218,230 @@ class io_ability extends IO {
         if (input.alt && !this.active) this.active = true;
         if (this.ability.timer < 1) this.activate();
         this.loop();
-        if (this.ability.timer) this.ability.timer--;
+    }
+}
+class io_turn extends IO {
+    constructor(body, opts = {}) {
+        super(body);
+        this.toStart = opts.firstType;
+        this.toEnd = opts.secondType;
+        this.active = false;
+    }
+    think(input) {
+        if (input.alt) {
+            this.active = true;
+        }
+        else if (this.active) {
+            this.active = false;
+            this.body.define(this.toStart);
+            setTimeout(() => this.body.define(this.toEnd), 1000 * 60);
+        }
     }
 }
 
 module.exports = ({ Class }) => {
+    // Comment out the line below to enable this addon, uncomment it to disable this addon.
+	//return console.log('--- Kwamis addon [kwamis.js] is disabled. See lines 217-218 to enable it. ---');
 
 	ioTypes = {
         ...ioTypes,
         ability: io_ability,
+        turn: io_turn,
     };
 
     Class.kwamiBase = {
         PARENT: ["genericTank"],
-        BODY: body,
-        SIZE: 60,
+        SIZE: 45,
         DANGER: 12,
         SHAPE: 0,
         LEVEL: 200,
-        EXTRA_SKILL: 60,
+        EXTRA_SKILL: 56,
         SKILL_CAP: Array(10).fill(smshskl+3),
     };
 
+    Class.kwamiSecondBase = {
+        PARENT: ["genericTank"],
+        SIZE: 45,
+        DANGER: 12,
+        SHAPE: 0,
+    };
+
 	Class.plaggAbility = makeAbility("plagg", 9);
-	Class.plagg = {
-		PARENT: ["kwamiBase"],
+	Class.plaggBoosterForm = {
+		PARENT: ["kwamiSecondBase"],
 		LABEL: "Plagg",
-		CONTROLLERS: [["ability", { type: "damage" }]],
-		COLOR: 11,
+        BODY: bodyBooster,
+        CONTROLLERS: [["ability", { type: "destroy" }]],
+        COLOR: 11,
+        TURRETS: [
+            {
+                POSITION: [19, 0, 0, 0, 360, 1],
+                TYPE: makeDeco(0, 9),
+            }
+        ],
+        GUNS: (() => {
+            let e = [];
+            for (let t = 1; t < 6; t++) {
+                let _t = t;
+                if (t == 1) _t = 1.8;
+                if (t == 4) _t = 3.2;
+                const d = (360 / 5) * _t;
+                for (let v = 0; v < 2; v++) {
+                    e.push({
+                        POSITION: [8, 5, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+                        PROPERTIES: { COLOR: 11 },
+                    }, {
+                        POSITION: [10, 4.1, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+                        PROPERTIES: {
+                            SHOOT_SETTINGS: combineStats([
+                                g.basic,
+                                g.twin,
+                                g.triple,
+                                g.slow,
+                                g.pound,
+                                g.morereload,
+                                g.tonsmorrecoil]),
+                            COLOR: 9,
+                            TYPE: ["bullet", { COLOR: 11 }],
+                        },
+                    });
+                }
+            }
+            return e;
+        })(),
+	};
+
+	Class.tikkiAbility = makeAbility("tikki", 5);
+	Class.tikkiBoosterForm = {
+		PARENT: ["kwamiSecondBase"],
+		LABEL: "Tikki",
+        BODY: bodyBooster,
+        CONTROLLERS: [["ability", { type: "heal" }]],
+        COLOR: 12,
 		TURRETS: [
 			{
-				POSITION: [18, 0, 0, 0, 360, 1],
+				POSITION: [4, 0, 0, 0, 360, 1],
 				TYPE: makeDeco(0, 9),
-			}
+			},
+			{
+				POSITION: [4, -4.5, -4.5, 0, 360, 1],
+				TYPE: makeDeco(0, 9),
+			},
+			{
+				POSITION: [4, -4.5, 4.5, 0, 360, 1],
+				TYPE: makeDeco(0, 9),
+			},
+			{
+				POSITION: [4, 4.5, -4.5, 0, 360, 1],
+				TYPE: makeDeco(0, 9),
+			},
+			{
+				POSITION: [4, 4.5, 4.5, 0, 360, 1],
+				TYPE: makeDeco(0, 9),
+			},
 		],
 		GUNS: (() => {
 			let e = [];
+            for (let t = 1; t < 6; t++) {
+                let _t = t;
+                if (t == 1) _t = 1.8;
+                if (t == 4) _t = 3.2;
+                const d = (360 / 5) * _t;
+                for (let v = 0; v < 2; v++) {
+                    e.push({
+                        POSITION: [8, 5, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+                        PROPERTIES: { COLOR: 12 },
+                    }, {
+                        POSITION: [10, 4.1, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+                        PROPERTIES: {
+                            SHOOT_SETTINGS: combineStats([
+                                g.basic,
+                                g.twin,
+                                g.triple,
+                                g.slow,
+                                g.pound,
+                                g.morereload,
+                                g.tonsmorrecoil]),
+                            COLOR: 9,
+                            TYPE: ["bullet", { COLOR: 12 }],
+                        },
+                    });
+                }
+            }
+			return e;
+		})(),
+	};
+
+	Class.noorooAbility = makeAbility("nooroo", 4);
+	Class.noorooBoosterForm = {
+		PARENT: ["kwamiSecondBase"],
+		LABEL: "Nooroo",
+        BODY: bodyBooster,
+        CONTROLLERS: [["ability", { type: "capture" }]],
+        COLOR: 9,
+        TURRETS: [
+            {
+                POSITION: [17.5, 0, 0, 0, 360, 1],
+                TYPE: makeDeco(0, 4),
+            }
+        ],
+		GUNS: (() => {
+			let e = [];
+            for (let t = 1; t < 6; t++) {
+                let _t = t;
+                if (t == 1) _t = 1.8;
+                if (t == 4) _t = 3.2;
+                const d = (360 / 5) * _t;
+                for (let v = 0; v < 2; v++) {
+                    e.push({
+                        POSITION: [8, 5, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+                        PROPERTIES: { COLOR: 4 },
+                    }, {
+                        POSITION: [10, 4.1, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+                        PROPERTIES: {
+                            SHOOT_SETTINGS: combineStats([
+                                g.basic,
+                                g.twin,
+                                g.triple,
+                                g.slow,
+                                g.pound,
+                                g.morereload,
+                                g.tonsmorrecoil]),
+                            COLOR: 9,
+                            TYPE: ["bullet", { COLOR: 4 }],
+                        },
+                    });
+                }
+            }
+			return e;
+		})(),
+	};
+
+    Class.plaggOctoForm = {
+		PARENT: ["kwamiSecondBase"],
+		LABEL: "Plagg",
+        BODY: bodyOcto,
+        CONTROLLERS: [["turn", { firstType: "plaggBoosterForm", secondType: "plaggOctoForm" }]],
+        COLOR: 11,
+        TURRETS: [
+            {
+                POSITION: [19, 0, 0, 0, 360, 1],
+                TYPE: makeDeco(0, 9),
+            }
+        ],
+		GUNS: (() => {
+			let e = [];
 			for (let t = 0; t < 5; t++) {
-				let d = (360 / 5) * (t + 1);
+				const d = (360 / 5) * (t + 1);
 				for (let v = 0; v < 2; v++) {
 					e.push({
-						POSITION: [10, 5, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+                        POSITION: [8, 5, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+                        PROPERTIES: { COLOR: 11 },
+                    }, {
+						POSITION: [10, 4.1, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
 						PROPERTIES: {
-							SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.sniper, g.assass, g.doublereload]),
-							COLOR: 9,
+							SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.triple, g.slow, g.pound, g.morereload]),
+                            COLOR: 9,
 							TYPE: ["bullet", { COLOR: 11 }],
 						},
 					});
@@ -262,12 +451,12 @@ module.exports = ({ Class }) => {
 		})(),
 	};
 
-	Class.tikkiAbility = makeAbility("tikki", 5);
-	Class.tikki = {
-		PARENT: ["kwamiBase"],
+	Class.tikkiOctoForm = {
+		PARENT: ["kwamiSecondBase"],
 		LABEL: "Tikki",
-		CONTROLLERS: [["ability", { type: "heal" }]],
-		COLOR: 12,
+        BODY: bodyOcto,
+        CONTROLLERS: [["turn", { firstType: "tikkiBoosterForm", secondType: "tikkiOctoForm" }]],
+        COLOR: 12,
 		TURRETS: [
 			{
 				POSITION: [4, 0, 0, 0, 360, 1],
@@ -293,45 +482,169 @@ module.exports = ({ Class }) => {
 		GUNS: (() => {
 			let e = [];
 			for (let t = 0; t < 5; t++) {
-				let d = (360 / 5) * (t + 1);
+				const d = (360 / 5) * (t + 1);
 				for (let v = 0; v < 2; v++) {
-					let O = {
-						POSITION: [10, 5, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+					e.push({
+                        POSITION: [8, 5, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+                        PROPERTIES: { COLOR: 12 },
+                    }, {
+						POSITION: [10, 4.1, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
 						PROPERTIES: {
-							SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.sniper, g.assass, g.doublereload]),
-							COLOR: 9,
+							SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.triple, g.slow, g.pound, g.morereload]),
+                            COLOR: 9,
 							TYPE: ["bullet", { COLOR: 12 }],
 						},
-					};
-					e.push(O);
+					});
 				}
 			}
 			return e;
 		})(),
 	};
 
-	Class.noorooAbility = makeAbility("nooroo", 4);
-	Class.nooroo = {
-		PARENT: ["kwamiBase"],
+	Class.noorooOctoForm = {
+		PARENT: ["kwamiSecondBase"],
 		LABEL: "Nooroo",
-		CONTROLLERS: [["ability", { type: "capture" }]],
-		COLOR: 4,
-		TURRETS: [
-			{
-				POSITION: [12, 0, 0, 0, 360, 1],
-				TYPE: makeDeco(0, 7),
-			},
-		],
+        BODY: bodyOcto,
+        CONTROLLERS: [["turn", { firstType: "noorooBoosterForm", secondType: "noorooOctoForm" }]],
+        COLOR: 9,
+        TURRETS: [
+            {
+                POSITION: [17.5, 0, 0, 0, 360, 1],
+                TYPE: makeDeco(0, 4),
+            }
+        ],
 		GUNS: (() => {
 			let e = [];
 			for (let t = 0; t < 5; t++) {
 				let d = (360 / 5) * (t + 1);
 				for (let v = 0; v < 2; v++) {
 					e.push({
-						POSITION: [10, 5, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+                        POSITION: [8, 5, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+                        PROPERTIES: { COLOR: 4 },
+                    }, {
+						POSITION: [10, 4.1, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
 						PROPERTIES: {
-							SHOOT_SETTINGS: combineStats([g.basic, g.pound, g.sniper, g.assass, g.doublereload]),
-							COLOR: 9,
+							SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.triple, g.slow, g.pound, g.morereload]),
+                            COLOR: 9,
+							TYPE: ["bullet", { COLOR: 4 }],
+						},
+					});
+				}
+			}
+			return e;
+		})(),
+	};
+
+    // DEFAULT
+	Class.plagg = {
+		PARENT: ["kwamiBase"],
+		LABEL: "Plagg",
+        BODY: bodyOcto,
+        CONTROLLERS: [["turn", { firstType: "plaggBoosterForm", secondType: "plaggOctoForm" }]],
+        COLOR: 11,
+        TURRETS: [
+            {
+                POSITION: [19, 0, 0, 0, 360, 1],
+                TYPE: makeDeco(0, 9),
+            }
+        ],
+		GUNS: (() => {
+			let e = [];
+			for (let t = 0; t < 5; t++) {
+				const d = (360 / 5) * (t + 1);
+				for (let v = 0; v < 2; v++) {
+					e.push({
+                        POSITION: [8, 5, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+                        PROPERTIES: { COLOR: 11 },
+                    }, {
+						POSITION: [10, 4.1, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+						PROPERTIES: {
+							SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.triple, g.slow, g.pound, g.morereload]),
+                            COLOR: 9,
+							TYPE: ["bullet", { COLOR: 11 }],
+						},
+					});
+				}
+			}
+			return e;
+		})(),
+	};
+
+	Class.tikki = {
+		PARENT: ["kwamiBase"],
+		LABEL: "Tikki",
+        BODY: bodyOcto,
+        CONTROLLERS: [["turn", { firstType: "tikkiBoosterForm", secondType: "tikkiOctoForm" }]],
+        COLOR: 12,
+		TURRETS: [
+			{
+				POSITION: [4, 0, 0, 0, 360, 1],
+				TYPE: makeDeco(0, 9),
+			},
+			{
+				POSITION: [4, -4.5, -4.5, 0, 360, 1],
+				TYPE: makeDeco(0, 9),
+			},
+			{
+				POSITION: [4, -4.5, 4.5, 0, 360, 1],
+				TYPE: makeDeco(0, 9),
+			},
+			{
+				POSITION: [4, 4.5, -4.5, 0, 360, 1],
+				TYPE: makeDeco(0, 9),
+			},
+			{
+				POSITION: [4, 4.5, 4.5, 0, 360, 1],
+				TYPE: makeDeco(0, 9),
+			},
+		],
+		GUNS: (() => {
+			let e = [];
+			for (let t = 0; t < 5; t++) {
+				const d = (360 / 5) * (t + 1);
+				for (let v = 0; v < 2; v++) {
+					e.push({
+                        POSITION: [8, 5, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+                        PROPERTIES: { COLOR: 12 },
+                    }, {
+						POSITION: [10, 4.1, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+						PROPERTIES: {
+							SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.triple, g.slow, g.pound, g.morereload]),
+                            COLOR: 9,
+							TYPE: ["bullet", { COLOR: 12 }],
+						},
+					});
+				}
+			}
+			return e;
+		})(),
+	};
+
+	Class.nooroo = {
+		PARENT: ["kwamiBase"],
+		LABEL: "Nooroo",
+        BODY: bodyOcto,
+        CONTROLLERS: [["turn", { firstType: "noorooBoosterForm", secondType: "noorooOctoForm" }]],
+        COLOR: 9,
+        TURRETS: [
+            {
+                POSITION: [17.5, 0, 0, 0, 360, 1],
+                TYPE: makeDeco(0, 4),
+            }
+        ],
+		GUNS: (() => {
+			let e = [];
+			for (let t = 0; t < 5; t++) {
+				let d = (360 / 5) * (t + 1);
+				for (let v = 0; v < 2; v++) {
+					e.push({
+                        POSITION: [8, 5, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+                        PROPERTIES: { COLOR: 4 },
+                    }, {
+						POSITION: [10, 4.1, 1, 5, v == 1 ? -2.5 : 2.5, d, 0],
+						PROPERTIES: {
+							SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.triple, g.slow, g.pound, g.morereload]),
+                            COLOR: 9,
 							TYPE: ["bullet", { COLOR: 4 }],
 						},
 					});
