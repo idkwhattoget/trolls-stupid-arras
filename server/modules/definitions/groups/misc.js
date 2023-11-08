@@ -71,7 +71,7 @@ exports.tankBody = {
 exports.dominator = {
     PARENT: ["genericTank"],
     LABEL: "Dominator",
-    UPGRADE_LABEL: 'Blank',
+    UPGRADE_LABEL: 'Unknown',
     DANGER: 7,
     SKILL: skillSet({
         rld: 1,
@@ -339,7 +339,7 @@ for (let tier of sancTiers) {
     exports['sanctuaryTier' + (sancIndex + 1)] = {
         PARENT: "sanctuary",
         TURRETS: [],
-        UPGRADE_LABEL: 'Sanctuary T' + (sancIndex + 1),
+        UPGRADE_LABEL: 'Tier ' + (sancIndex + 1),
         GUNS: (() => {
             let output = []
             for (let i = 0; i < tier; i++) {
@@ -926,7 +926,8 @@ exports.antiTankMachineGunArm = {
 }
 exports.antiTankMachineGun = {
     PARENT: ["dominator"],
-    LABEL: "Anti Tank Machine Gun",
+    LABEL: "Anti-Tank Machine Gun",
+    UPGRADE_LABEL: "ATMG",
     CONTROLLERS: [['spin', {onlyWhenIdle: true}], 'nearestDifferentMaster'],
     LEVEL: 45,
     BODY: {
