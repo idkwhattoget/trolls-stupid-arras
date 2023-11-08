@@ -740,7 +740,7 @@ const protocols = {
 const socketInit = port => {
     window.resizeEvent();
     let socket;
-    wsocket = new WebSocket(protocols[location.protocol] + window.serverAdd)
+    socket = new WebSocket(protocols[location.protocol] + window.serverAdd)
     //let socket = new WebSocket(protocols[location.protocol] + window.serverAdd)
     // Set up our socket
     socket.binaryType = 'arraybuffer';

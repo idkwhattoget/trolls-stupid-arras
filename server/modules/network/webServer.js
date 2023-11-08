@@ -19,7 +19,7 @@ if (c.host.match(/localhost:(\d)/) && c.host !== 'localhost:' + c.port) {
     util.warn('config.host is a localhost domain but its port is different to config.port!');
 }
 let host = c.host;
-if (process.env.BETA === "yes") host = "localhost:3000"
+if (process.env.BETA === "yes") host = "localhost:3000";
 server = require('http').createServer((req, res) => {
     let resStr = "";
     switch (req.url) {
@@ -30,7 +30,7 @@ server = require('http').createServer((req, res) => {
             resStr = JSON.stringify({ gameMode: c.gameModeName, players: views.length });
             break;
         case "/serverData.json":
-            resStr = JSON.stringify({ ip: c.host });
+            resStr = JSON.stringify({ ip: host });
             break;
         default:
             let fileToGet = path.join(publicRoot, req.url);
