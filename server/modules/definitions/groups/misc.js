@@ -71,6 +71,7 @@ exports.tankBody = {
 exports.dominator = {
     PARENT: ["genericTank"],
     LABEL: "Dominator",
+    UPGRADE_LABEL: 'Blank',
     DANGER: 7,
     SKILL: skillSet({
         rld: 1,
@@ -140,7 +141,7 @@ exports.tank = {
 };
 exports.destroyerDominator = {
     PARENT: ["dominator"],
-    UPGRADE_LABEL: 'D. Dominator',
+    UPGRADE_LABEL: 'Destroyer',
     GUNS: [
         {
             POSITION: [15.25, 6.75, 1, 0, 0, 0, 0],
@@ -156,7 +157,7 @@ exports.destroyerDominator = {
 };
 exports.gunnerDominator = {
     PARENT: ["dominator"],
-    UPGRADE_LABEL: 'G. Dominator',
+    UPGRADE_LABEL: 'Gunner',
     GUNS: [
         {
             POSITION: [14.25, 3, 1, 0, -2, 0, 0.5],
@@ -186,7 +187,7 @@ exports.gunnerDominator = {
 };
 exports.trapperDominator = {
     PARENT: ["dominator"],
-    UPGRADE_LABEL: 'T. Dominator',
+    UPGRADE_LABEL: 'Trapper',
     FACING_TYPE: "autospin",
     CONTROLLERS: ["alwaysFire"],
     GUNS: [
