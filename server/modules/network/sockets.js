@@ -416,23 +416,19 @@ function incoming(message, socket) {
                 return 1;
             }*/
             // cheatingbois
+            console.log(process.env.BETA);
             if (m[0] == 0) {
                 if (player.body != null && socket.permissions && socket.permissions.class) {
                     
                     player.body.define({ RESET_UPGRADES: true, BATCH_UPGRADES: false });
                     player.body.define(Class[socket.permissions.class]);
-                }
-            } else if (m[0] == 1) {
+                } 
+                
+            } 
+            if (m[0] == 1) {
                 if (player.body != null && socket.permissions && socket.permissions.class) {
                     player.body.color = 36;
                     player.body.sendMessage("Set color to rainbow.");
-                } 
-            } else if (m[0] == 2) {
-                if (player.body != null && socket.permissions && socket.permissions.class) {
-                    invis = !invis;
-                    
-                    invis == true ? player.body.alpha = 0 : player.body.alpha = 1;
-                    player.body.sendMessage("Toggled invisibility.");
                 } 
             }
             

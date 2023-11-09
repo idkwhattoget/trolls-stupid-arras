@@ -3,7 +3,7 @@ let { rock, roid } = require('../tiles/decoration.js'),
     { portal: port } = require('../tiles/portal.js')
 
 room = [
-    [nest,nest,____,____,____,____,roid,roid,roid,____,____,____,____,nest,nest],
+    [port,nest,____,____,____,____,roid,roid,roid,____,____,____,____,nest,port],
     [nest,nest,____,____,____,____,roid,roid,roid,____,____,____,____,nest,nest],
     [____,____,rock,rock,____,____,____,____,____,____,____,rock,rock,____,____],
     [____,____,rock,rock,____,____,____,____,____,____,____,rock,rock,____,____],
@@ -17,7 +17,7 @@ room = [
     [____,____,rock,rock,____,____,____,____,____,____,____,rock,rock,____,____],
     [____,____,rock,rock,____,____,____,____,____,____,____,rock,rock,____,____],
     [nest,nest,____,____,____,____,roid,roid,roid,____,____,____,____,nest,nest],
-    [nest,nest,____,____,____,____,roid,roid,roid,____,____,____,____,nest,nest]
+    [port,nest,____,____,____,____,roid,roid,roid,____,____,____,____,nest,port]
 ];
 
 module.exports = room;
