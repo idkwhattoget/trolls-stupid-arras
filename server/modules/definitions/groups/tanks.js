@@ -1056,6 +1056,15 @@ exports.pillbox = {
         },
     ],
 };
+exports.unsetPillbox = {
+    PARENT: 'unsetTrap',
+    TURRETS: [
+        {
+            POSITION: [11, 0, 0, 0, 360, 1],
+            TYPE: "pillboxTurret",
+        },
+    ],
+}
 
 exports.swarm = {
     LABEL: "Swarm Drone",
