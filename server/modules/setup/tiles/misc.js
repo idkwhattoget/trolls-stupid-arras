@@ -79,5 +79,7 @@ wall = new Tile({
     }
 });
 
+bounds = new Tile({ color: "#DBDBDB" }),
+
 
 module.exports = { normal, nest, wall, nestNoBoss };
