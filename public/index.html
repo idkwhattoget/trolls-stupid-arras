@@ -25,7 +25,7 @@
         <div id="startMenuWrapper">
             <div id="startMenu">
                 <div class="startMenuHolder">
-                  <center>welcome to this private server thingy<br>there is only like a single new tank but i will add new ones as time goes on<br><br>also rare shapes spawn more commonly because why not</center>
+                  <center>This Arras.io Private Server runs on Open Source Arras.<br>For more info, visit <a href="https://github.com/Taureon/aps-plus-plus">the GitHub Repository</a></center>
                 </div>
                 <div class="startMenuHolder">
                     <div class="sliderHolder">
@@ -37,10 +37,10 @@
                             </div>
                             <table id="serverSelector" style="display:none;"></table>
                             <input type="text" autofocus tabindex="1" spellcheck="false" placeholder="This is the tale of" id="playerNameInput" maxlength="24" />
-                            <input type="text" class="conceal" tabindex="3" placeholder="Insert token here" id="playerKeyInput" maxlength="1024" />
+                            <input type="text" class="conceal" tabindex="3" placeholder="Insert token here" id="playerKeyInput" maxlength="64" />
                         </div>
                         <div class="slider" id="startMenuSlidingTrigger">
-                            <h3 class="nopadding">view options/help 🡲</h3>
+                            <h3 class="nopadding">view options/help ▸</h3>
                         </div>
                         <div class="slider">
                             <br>
@@ -104,12 +104,12 @@
                         <!--<a class="link youtube"   href="https://www.youtube.com/arrasio">Arras.io YouTube</a>
                         <a class="link reddit"    href="https://reddit.com/r/arrasio">Arras.io Subreddit</a>
                         <a class="link original"  href="https://arras.io/">Arras.io Game</a>-->
-                        <a class="link discord"   href="https://discord.gg/utpDqsaSAJ">Discord server</a>
-                        <a class="link developer" href="https://github.com/Taureon/">Template developer</a>
-                        <a class="link github"    href="https://github.com/Taureon/aps-plus-plus">Template source</a>
-                        <a class="link discord"   href="https://arras.io">Arras.io</a>
-                        <a class="link developer" href="http">Add more stuff here</a>
-                        <a class="link github"    href="lel">Add more stuff here</a>
+                        <a class="link discord"   href="https://discord.gg/kvCAZfUCjy">Our Discord</a>
+                        <a class="link developer" href="https://github.com/Taureon/">Main Developer</a>
+                        <a class="link github"    href="https://github.com/Taureon/aps-plus-plus">Template Source</a>
+                        <a class="link discord"   href="https://discord.gg/yqBWVnj">Arras.io Discord</a>
+                        <a class="link developer" href="https://github.com/Zenphia/">Original Creator</a>
+                        <a class="link github"    href="https://github.com/Taureon/aps-plus-plus/issues">Report Bugs</a>
                     </div>
                 </div>
             </div>
@@ -131,10 +131,10 @@
         $("#startMenuSlidingTrigger").on('click', function() {
             clicked = !clicked;
             if (clicked) {
-                $(this).html('<h3 class="nopadding">close options/help 🡶</h3>');
+                $(this).html('<h3 class="nopadding">close options/help ▾</h3>');
                 $(".slider").css({ "top": "-265px" })
             } else {
-                $(this).html('<h3 class="nopadding">view options/help 🡲</h3>');
+                $(this).html('<h3 class="nopadding">view options/help ▸</h3>');
                 $(".slider").css({ "top": 0 });
             }
         });

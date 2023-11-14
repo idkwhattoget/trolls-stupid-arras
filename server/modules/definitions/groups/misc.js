@@ -646,7 +646,7 @@ exports.sentryTrap = makeAuto(exports.sentry, "Sentry", {
 });
 exports.sentryTrap.UPGRADE_LABEL = "Trap Sentry";
 
-exports.shinySentry = {
+exports.shinySentry = { // if youre gonna mald about the shape not being 0 save yourself time by changing it yourself in your own private servers ok
     PARENT: ["sentry"],
     COLOR: 1,
     DANGER: 4,
@@ -1000,6 +1000,7 @@ exports.baseSwarmTurret = {
 exports.baseProtector = {
     PARENT: ["genericTank"],
     LABEL: "Base",
+    UPGRADE_LABEL: "Base Protector",
     SIZE: 64,
     DAMAGE_CLASS: 0,
     ACCEPTS_SCORE: false,
@@ -1202,7 +1203,7 @@ exports.antiTankMachineGunArm = {
 exports.antiTankMachineGun = {
     PARENT: ["dominator"],
     LABEL: "Anti-Tank Machine Gun",
-    UPGRADE_LABEL: "ATMG",
+    UPGRADE_LABEL: "A.T.M.G.",
     CONTROLLERS: [['spin', {onlyWhenIdle: true}], 'nearestDifferentMaster'],
     LEVEL: 45,
     BODY: {
