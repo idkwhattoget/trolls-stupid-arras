@@ -2515,6 +2515,7 @@ exports.flailBallSpike = {
 };
 exports.flailBall = {
     PARENT: ["genericTank"],
+    HITS_OWN_TYPE: 'hard',
     TURRETS: [{
         /** SIZE     X       Y     ANGLE    ARC */
         POSITION: [21.5, 0, 0, 0, 360, 0],
@@ -2529,7 +2530,8 @@ exports.flailBolt1 = {
     TURRETS: [{
         POSITION: [48, 56, 0, 0, 190, 1],
         TYPE: ["flailBall", {
-            INDEPENDENT: true
+            INDEPENDENT: true,
+            VULNERABLE: true
         }]
         },
     ],
@@ -2623,6 +2625,7 @@ exports.maceBallSpike = {
 };
 exports.maceBall = {
     PARENT: ["genericTank"],
+    HITS_OWN_TYPE: 'hard',
     TURRETS: [{
         /** SIZE     X       Y     ANGLE    ARC */
         POSITION: [21.5, 0, 0, 0, 360, 0],
@@ -2637,7 +2640,8 @@ exports.maceBolt1 = {
     TURRETS: [{
         POSITION: [76, 56, 0, 0, 190, 1],
         TYPE: ["maceBall", {
-            INDEPENDENT: true
+            INDEPENDENT: true,
+            VULNERABLE: true
         }]
         },
     ],
@@ -2691,7 +2695,8 @@ exports.mamaBolt1 = {
     TURRETS: [{
         POSITION: [104, 56, 0, 0, 190, 1],
         TYPE: ["maceBall", {
-            INDEPENDENT: true
+            INDEPENDENT: true,
+            VULNERABLE: true
         }]
         },
     ],
@@ -2739,6 +2744,7 @@ exports.bigMama = {
 };
 exports.ihdtiBall = {
     PARENT: ["genericTank"],
+    HITS_OWN_TYPE: 'hard',
     TURRETS: [{
         /** SIZE     X       Y     ANGLE    ARC */
         POSITION: [21.5, 0, 0, 0, 360, 0],
@@ -2757,7 +2763,8 @@ exports.ihdtiBolt1 = {
     TURRETS: [{
         POSITION: [76, 56, 0, 0, 190, 1],
         TYPE: ["ihdtiBall", {
-            INDEPENDENT: true
+            INDEPENDENT: true,
+            VULNERABLE: true
         }]
         },
     ],
