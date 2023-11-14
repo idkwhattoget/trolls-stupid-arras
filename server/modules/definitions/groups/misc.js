@@ -1828,6 +1828,116 @@ exports.lambo = {
                     g.puregunner,
                     g.machgun,
                     g.thruster,
+                    g.tonsmorrecoil,
+                    g.doublereload,
+                    [0.1, 3, 1, 1, 1, 1, 1, 1, 1, 0.075, 1, 2, 1],
+                ]),
+                TYPE: "bullet",
+            },
+        },
+    ],
+};
+exports.bugatti = {
+    PARENT: ["genericTank"],
+    LABEL: "Bugatti",
+    DANGER: 7,
+    FACING_TYPE: "locksFacing",
+    STAT_NAMES: statnames.swarm,
+    BODY: {
+        FOV: base.FOV * 1.2,
+    },
+    TURRETS: [
+        {
+            /*  SIZE     X       Y     ANGLE    ARC */
+            POSITION: [20, -4, 0, 0, 0, 0],
+            TYPE: "genericEntity",
+        },
+    ],
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [18, 8, 1, 0, 0, 0, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.swarm]),
+                TYPE: "swarm",
+                STAT_CALCULATOR: gunCalcNames.swarm,
+            },
+        },
+        {
+            POSITION: [6, 16, 1, 16, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.swarm, g.fake]),
+                TYPE: "swarm",
+                STAT_CALCULATOR: gunCalcNames.swarm,
+            },
+        },
+        {
+            POSITION: [1, 3, 1, 3, 0, 180, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([
+                    g.basic,
+                    g.twin,
+                    g.puregunner,
+                    g.machgun,
+                    g.thruster,
+                    g.tonsmorrecoil,
+                    g.doublereload,
+                    g.morerecoil,
+                    g.morereload,
+                    [0.1, 3, 1, 1, 1, 1, 1, 1, 1, 0.075, 1, 2, 1],
+                ]),
+                TYPE: "bullet",
+            },
+        },
+    ],
+};
+exports.ssc = {
+    PARENT: ["genericTank"],
+    LABEL: "Thrust SSC",
+    DANGER: 7,
+    FACING_TYPE: "locksFacing",
+    STAT_NAMES: statnames.swarm,
+    BODY: {
+        FOV: base.FOV * 1.2,
+    },
+    TURRETS: [
+        {
+            /*  SIZE     X       Y     ANGLE    ARC */
+            POSITION: [20, -4, 0, 0, 0, 0],
+            TYPE: "genericEntity",
+        },
+    ],
+    GUNS: [
+        {
+            /*** LENGTH  WIDTH   ASPECT    X       Y     ANGLE   DELAY */
+            POSITION: [18, 8, 1, 0, 0, 0, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.swarm]),
+                TYPE: "swarm",
+                STAT_CALCULATOR: gunCalcNames.swarm,
+            },
+        },
+        {
+            POSITION: [6, 16, 1, 16, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.swarm, g.fake]),
+                TYPE: "swarm",
+                STAT_CALCULATOR: gunCalcNames.swarm,
+            },
+        },
+        {
+            POSITION: [1, 3, 1, 3, 0, 180, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([
+                    g.basic,
+                    g.twin,
+                    g.puregunner,
+                    g.machgun,
+                    g.thruster,
+                    g.tonsmorrecoil,
+                    g.doublereload,
+                    g.tonsmorrecoil,
+                    g.doublereload,
                     [0.1, 3, 1, 1, 1, 1, 1, 1, 1, 0.075, 1, 2, 1],
                 ]),
                 TYPE: "bullet",
