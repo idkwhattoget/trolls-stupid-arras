@@ -198,6 +198,10 @@ exports.tanks = {
     PARENT: ["menu"],
     LABEL: "Tanks",
 };
+exports.legacyTanks = {
+    PARENT: ["menu"],
+    LABEL: "Legacy Tanks",
+};
 exports.specialTanks = {
     PARENT: ["menu"],
     LABEL: "Special Tanks",
@@ -1364,7 +1368,7 @@ exports.teams.UPGRADES_TIER_0.push('Team' + TEAM_ROOM, 'Team' + TEAM_ENEMIES);
 
 exports.testing = {
     PARENT: ["menu"],
-    LABEL: "Testing"
+    LABEL: "More Tanks"
 };
 
 exports.addons = {
@@ -1373,7 +1377,7 @@ exports.addons = {
     UPGRADES_TIER_0: []
 };
 
-exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "spectator", "levels", "teams", "eggGenerator", "testing", "addons"];
+exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "spectator", "levels", "teams", "eggGenerator", "rockGenerator", "testing", "addons"];
     exports.tanks.UPGRADES_TIER_0 = ["basic", "healer", "spectator", "dominators", "sanctuaries", "mothership", "baseProtector", "antiTankMachineGun", "arenaCloser"];
         exports.dominators.UPGRADES_TIER_0 = ["destroyerDominator", "gunnerDominator", "trapperDominator"];
         exports.sanctuaries.UPGRADES_TIER_0 = ["sanctuaryTier1", "sanctuaryTier2", "sanctuaryTier3", "sanctuaryTier4", "sanctuaryTier5", "sanctuaryTier6"];
@@ -1402,7 +1406,8 @@ exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "spectator", "levels", "
             exports.moonGenerator.UPGRADES_TIER_0 = exports.rockGenerator.UPGRADES_TIER_0;
             exports.gravelGenerator.UPGRADES_TIER_0 = exports.rockGenerator.UPGRADES_TIER_0;
 
-    exports.testing.UPGRADES_TIER_0 = ["funTanks", "testingTanks"];
+    exports.testing.UPGRADES_TIER_0 = ["funTanks", "testingTanks", "legacyTanks"];
         exports.funTanks.UPGRADES_TIER_0 = ["florr_tank", "vanquisher", "armyOfOne", "godbasic", "maximumOverdrive", "meonwaymytodoyourmom", "medoingyourmom", "mummifier", "auraBasic", "auraHealer", "weirdAutoBasic", "ghoster", "switcheroo", "tracker3", "splitTanks", "tank", "spamOctoTank", "lambo", "bugatti", "ssc"];
             exports.splitTanks.UPGRADES_TIER_0 = [["developer", "basic"], ["developer", "developer"], ["aura", "basic"], ["aura", "basic"]];
         exports.testingTanks.UPGRADES_TIER_0 = ["diamondShape", "rotatedTrap", "colorMan", "miscTest", "mmaTest", "vulnturrettest", "onTest", "alphaGunTest"];
+        exports.legacyTanks.UPGRADES_TIER_0 = ["weirdSpike", "oldBentBoomer", "quadBuilder", "master", "blunderbuss", "oldRimfire", "oldSpreadshot", "oldCommander", "autoTrapper", "prodigy", "mender", "tetraGunner", "corvette", "whirlwind", "flail"];
