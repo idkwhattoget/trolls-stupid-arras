@@ -436,7 +436,7 @@ function incoming(message, socket) {
             break;
         case "1":
             //suicide squad
-            if (player.body != null) {
+            if (player.body != null && !player.body.underControl) {
                 for (let i = 0; i < entities.length; i++) {
                     let instance = entities[i];
                     if (instance.settings.clearOnMasterUpgrade && instance.master.id === player.body.id) {
@@ -909,10 +909,10 @@ const spawn = (socket, name) => {
     body.socket = socket;
     switch (c.MODE) {
         case "tdm":
-            body.color = getTeamColor(body.team);
+            if (body.color == "16 0 1 0 false") body.color = getTeamColor(body.team);
             break;
         default: 
-            body.color = (c.RANDOM_COLORS ? ran.choose([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 17 ]) : 12) + ' 0 1 0 false';
+            if (body.color == "16 0 1 0 false") body.color = (c.RANDOM_COLORS ? ran.choose([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ]) : 12) + ' 0 1 0 false';
     }
     // Decide what to do about colors when sending updates and stuff
     player.teamColor = !c.RANDOM_COLORS && c.MODE === "ffa" ? 10 : body.color; // blue
@@ -1095,6 +1095,7 @@ const eyes = (socket) => {
                     camera.y = player.body.cameraOverrideY === null ? player.body.photo.y : player.body.cameraOverrideY;
                     camera.vx = player.body.photo.vx;
                     camera.vy = player.body.photo.vy;
+                    camera.scoping = player.body.cameraOverrideX !== null;
                     // Get what we should be able to see
                     setFov = player.body.fov;
                     // Get our body id
@@ -1165,6 +1166,7 @@ const eyes = (socket) => {
                 setFov,
                 camera.vx,
                 camera.vy,
+                camera.scoping,
                 ...player.gui.publish(),
                 visible.length,
                 ...view

@@ -93,6 +93,9 @@ global.player = {
     cy: 0,
     renderx: global.screenWidth / 2,
     rendery: global.screenHeight / 2,
+    isScoping: false,
+    screenx: 0,
+    screeny: 0,
     renderv: 1,
     slip: 0,
     view: 1,
@@ -248,12 +251,23 @@ global.player = {
     lasty: global.player.y,
     cx: 0,
     cy: 0,
-    target: window.canvas.target,
+    target: calculateTarget(),
     name: "",
     lastUpdate: 0,
     time: 0,
     nameColor: "#ffffff",
 };
+function calculateTarget() {
+    global.target.x = global.mouse.x * global.ratio - (global.player.screenx / global.screenWidth * window.canvas.width + window.canvas.width / 2);
+    global.target.y = global.mouse.y * global.ratio - (global.player.screeny / global.screenHeight * window.canvas.height + window.canvas.height / 2);
+    if (window.canvas.reverseDirection) {
+        global.target.x *= -1;
+        global.target.y *= -1;
+    }
+    global.target.x *= global.screenWidth / window.canvas.width;
+    global.target.y *= global.screenHeight / window.canvas.height;
+    return global.target;
+}
 // This starts the game and sets up the websocket
 function startGame() {
     // Get options
@@ -782,7 +796,7 @@ function drawHealth(x, y, instance, ratio, alpha) {
     if (instance.drawsHealth) {
         let health = instance.render.health.get(),
             shield = instance.render.shield.get();
-        if (health < 1 - 1e-4 || shield < 1 - 1e-4) {
+        if (health < 0.99 || shield < 0.99) {
             let instanceColor = null;
             let getColor = true;
             if (typeof instance.color == 'string') {
@@ -824,6 +838,40 @@ function drawHealth(x, y, instance, ratio, alpha) {
         drawText(util.handleLargeNumber(instance.score, 1), x, y - realSize - 12 * ratio, 6 * ratio, namecolor, "center");
         ctx.globalAlpha = 1;
     }
+}
+
+function drawEntityIcon(model, x, y, len, height, angle, alpha, colorIndex, upgradeKey) {
+    let picture = util.getEntityImageFromMockup(model, gui.color),
+        position = picture.position,
+        scale = (0.6 * len) / position.axis,
+        entityX = x + 0.5 * len - scale * position.middle.x * Math.cos(angle),
+        entityY = y + 0.5 * height - scale * position.middle.x * Math.sin(angle),
+        baseColor = picture.color;
+
+    // Draw box
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = picture.upgradeColor != null ? gameDraw.getColor(picture.upgradeColor) : gameDraw.getColor(colorIndex > 18 ? colorIndex - 19 : colorIndex);
+    drawGuiRect(x, y, len, height);
+    ctx.globalAlpha = 0.1;
+    ctx.fillStyle = picture.upgradeColor != null ? gameDraw.getColor(picture.upgradeColor) : gameDraw.getColor(colorIndex - 9);
+    drawGuiRect(x, y, len, height * 0.6);
+    ctx.fillStyle = color.black;
+    drawGuiRect(x, y + height * 0.6, len, height * 0.4);
+    ctx.globalAlpha = 1;
+
+    // Draw Tank
+    drawEntity(baseColor, entityX, entityY, picture, 1, 1, scale / picture.size, angle, true);
+
+    // Tank name
+    drawText(picture.upgradeName ?? picture.name, x + (upgradeKey ? 0.9 * len : len) / 2, y + height - 6, height / 8 - 3, color.guiwhite, "center");
+
+    // Upgrade key
+    if (upgradeKey) {
+        drawText("[" + upgradeKey + "]", x + len - 4, y + height - 6, height / 8 - 3, color.guiwhite, "right");
+    }
+    ctx.strokeStyle = color.black;
+    ctx.lineWidth = 3;
+    drawGuiRect(x, y, len, height, true); // Border
 }
 
 // Start animation
@@ -973,7 +1021,7 @@ let tiles,
         for (let i = 0; i < hasUpgrades.length; i++) {
             let upgrade = hasUpgrades[i],
                 spacing = 2 * Math.max(1, upgrade.tier - tier),
-                measure = measureSize(x, y + spacing, 10 + i, upgrade);
+                measure = measureSize(x, y + spacing, upgrade.upgradeColor ?? 10 + i, upgrade);
             branches.push([{ x, y: y + Math.sign(i) }, { x, y: y + spacing + 1 }]);
             if (i === hasUpgrades.length - 1 && !noUpgrades.length) {
                 branches.push([{ x: xStart, y: y + 1 }, { x, y: y + 1 }]);
@@ -986,7 +1034,7 @@ let tiles,
         for (let i = 0; i < noUpgrades.length; i++) {
             let upgrade = noUpgrades[i],
                 height = 2 + upgrades.length;
-            measureSize(x, y + 1 + i + Math.sign(hasUpgrades.length) * 2, 10 + i, upgrade);
+            measureSize(x, y + 1 + i + Math.sign(hasUpgrades.length) * 2, upgrade.upgradeColor ?? 10 + i, upgrade);
             if (i === noUpgrades.length - 1) {
                 if (hasUpgrades.length > 1) cumulativeWidth++;
                 branches.push([{ x: xStart, y }, { x, y }]);
@@ -1080,9 +1128,16 @@ function drawEntities(px, py, ratio) {
         instance.render.x = util.lerp(instance.render.x, Math.round(instance.x + instance.vx), 0.1, true);
         instance.render.y = util.lerp(instance.render.y, Math.round(instance.y + instance.vy), 0.1, true);
         instance.render.f = instance.id === gui.playerid && !global.autoSpin && !instance.twiggle && !global.died ? Math.atan2(global.target.y, global.target.x) : util.lerpAngle(instance.render.f, instance.facing, 0.15, true);
-        let x = instance.id === gui.playerid && settings.graphical.centerTank ? 0 : ratio * instance.render.x - px,
-            y = instance.id === gui.playerid && settings.graphical.centerTank ? 0 : ratio * instance.render.y - py,
+        let x = ratio * instance.render.x - px,
+            y = ratio * instance.render.y - py,
             baseColor = instance.color;
+        
+        if (instance.id === gui.playerid) {
+            x = settings.graphical.centerTank && !global.player.isScoping ? 0 : x;
+            y = settings.graphical.centerTank && !global.player.isScoping ? 0 : y;
+            global.player.screenx = x;
+            global.player.screeny = y;
+        }
         x += global.screenWidth / 2;
         y += global.screenHeight / 2;
         drawEntity(baseColor, x, y, instance, ratio, instance.id === gui.playerid || global.showInvisible ? instance.alpha ? instance.alpha * 0.75 + 0.25 : 0.25 : instance.alpha, 1.1, instance.render.f);
@@ -1093,8 +1148,8 @@ function drawEntities(px, py, ratio) {
 
     //draw health bars above entities
     for (let instance of global.entities) {
-        let x = instance.id === gui.playerid ? 0 : ratio * instance.render.x - px,
-            y = instance.id === gui.playerid ? 0 : ratio * instance.render.y - py;
+        let x = instance.id === gui.playerid ? global.player.screenx : ratio * instance.render.x - px,
+            y = instance.id === gui.playerid ? global.player.screeny : ratio * instance.render.y - py;
         x += global.screenWidth / 2;
         y += global.screenHeight / 2;
         drawHealth(x, y, instance, ratio, instance.alpha);
@@ -1174,10 +1229,10 @@ function drawUpgradeTree(spacing, alcoveSize) {
     global.scrollY = util.lerp(global.scrollY, global.fixedScrollY, 0.1);
 
     for (let [start, end] of branches) {
-        let sx = start.x * spaceBetween + (start.x - global.scrollX) * tileSize + 1 + 0.5 * size,
-            sy = start.y * spaceBetween + (start.y - global.scrollY) * tileSize + 1 + 0.5 * size,
-            ex = end.x * spaceBetween + (end.x - global.scrollX) * tileSize + 1 + 0.5 * size,
-            ey = end.y * spaceBetween + (end.y - global.scrollY) * tileSize + 1 + 0.5 * size;
+        let sx = (start.x - global.scrollX) * (tileSize + spaceBetween) + 1 + 0.5 * size,
+            sy = (start.y - global.scrollY) * (tileSize + spaceBetween) + 1 + 0.5 * size,
+            ex = (end.x - global.scrollX) * (tileSize + spaceBetween) + 1 + 0.5 * size,
+            ey = (end.y - global.scrollY) * (tileSize + spaceBetween) + 1 + 0.5 * size;
         if (ex < 0 || sx > global.screenWidth || ey < 0 || sy > global.screenHeight) continue;
         ctx.strokeStyle = color.black;
         ctx.lineWidth = 2;
@@ -1189,35 +1244,12 @@ function drawUpgradeTree(spacing, alcoveSize) {
     ctx.globalAlpha = 1;
 
     //draw the various tank icons
+    let angle = -Math.PI / 4;
     for (let { x, y, colorIndex, index } of tiles) {
-        let ax = x * spaceBetween + (x - global.scrollX) * tileSize,
-            ay = y * spaceBetween + (y - global.scrollY) * tileSize,
-            size = tileSize;
-        if (ax < -size || ax > global.screenWidth + size || ay < -size || ay > global.screenHeight + size) continue;
-        let angle = -Math.PI / 4,
-            position = global.mockups[index].position,
-            scale = (0.625 * size) / position.axis,
-            xx = ax + 0.5 * size - scale * position.middle.x * Math.cos(angle),
-            yy = ay + 0.5 * size - scale * position.middle.x * Math.sin(angle),
-            picture = util.getEntityImageFromMockup(index.toString(), gui.color),
-            baseColor = picture.color;
-
-        ctx.globalAlpha = 1;
-        ctx.fillStyle = picture.upgradeColor != null ? gameDraw.getColor(picture.upgradeColor) : gameDraw.getColor(colorIndex > 18 ? colorIndex - 19 : colorIndex);
-        drawGuiRect(ax, ay, size, size);
-        ctx.globalAlpha = 0.15;
-        ctx.fillStyle = picture.upgradeColor != null ? gameDraw.getColor(picture.upgradeColor) : gameDraw.getColor(-10 + colorIndex++);
-        drawGuiRect(ax, ay, size, size * 0.6);
-        ctx.fillStyle = color.black;
-        drawGuiRect(ax, ay + size * 0.6, size, size * 0.4);
-        ctx.globalAlpha = 1;
-
-        drawEntity(baseColor, xx, yy, picture, 1, 1, scale / picture.size, angle, true);
-
-        drawText(picture.upgradeName ?? picture.name, ax + size / 2, ay + size - 5, size / 8 - 3, color.guiwhite, "center");
-
-        ctx.lineWidth = 3;
-        drawGuiRect(ax, ay, size, size, true);
+        let ax = (x - global.scrollX) * (tileSize + spaceBetween),
+            ay = (y - global.scrollY) * (tileSize + spaceBetween);
+        if (ax < -tileSize || ax > global.screenWidth + tileSize || ay < -tileSize || ay > global.screenHeight + tileSize) continue;
+        drawEntityIcon(index.toString(), ax, ay, tileSize, tileSize, angle, 1, colorIndex);
     }
 
     let text = "Use the arrow keys to navigate the class tree. Press T again to close it.";
@@ -1556,40 +1588,10 @@ function drawAvailableUpgrades(spacing, alcoveSize) {
             rowWidth = x;
 
             global.clickables.upgrade.place(i, x * clickableRatio, y * clickableRatio, len * clickableRatio, height * clickableRatio);
-
-            let picture = util.getEntityImageFromMockup(model, gui.color),
-                position = picture.position,
-                scale = (0.6 * len) / position.axis,
-                entityX = x + 0.5 * len - scale * position.middle.x * Math.cos(upgradeSpin),
-                entityY = y + 0.5 * height - scale * position.middle.x * Math.sin(upgradeSpin),
-                baseColor = picture.color;
-
-            // Draw box
-            ctx.globalAlpha = 0.5;
-            ctx.fillStyle = picture.upgradeColor!=null ? gameDraw.getColor(picture.upgradeColor) : gameDraw.getColor(colorIndex > 18 ? colorIndex - 19 : colorIndex);
-            drawGuiRect(x, y, len, height);
-            ctx.globalAlpha = 0.1;
-            ctx.fillStyle = picture.upgradeColor!=null ? gameDraw.getColor(picture.upgradeColor) : gameDraw.getColor(-10 + colorIndex++);
-            drawGuiRect(x, y, len, height * 0.6);
-            ctx.fillStyle = color.black;
-            drawGuiRect(x, y + height * 0.6, len, height * 0.4);
-            ctx.globalAlpha = 1;
-
-            // Draw Tank
-            drawEntity(baseColor, entityX, entityY, picture, 1, 1, scale / picture.size, upgradeSpin, true);
             let upgradeKey = getClassUpgradeKey(upgradeNum);
 
-            // Tank name
-            drawText(picture.upgradeName ?? picture.name, x + ((upgradeKey ? 0.9 : 1) * len) / 2, y + height - 6, height / 8 - 3, color.guiwhite, "center");
+            drawEntityIcon(model, x, y, len, height, upgradeSpin, 0.5, colorIndex++, upgradeKey);
 
-            // Upgrade key
-            if (upgradeKey) {
-                drawText("[" + upgradeKey + "]", x + len - 4, y + height - 6, height / 8 - 3, color.guiwhite, "right");
-            }
-            ctx.strokeStyle = color.black;
-            ctx.globalAlpha = 1;
-            ctx.lineWidth = 3;
-            drawGuiRect(x, y, len, height, true); // Border
             ticker++;
             upgradeNum++;
         }
@@ -1625,6 +1627,9 @@ const gameDrawAlive = (ratio, drawRatio) => {
     global.player.rendery = util.lerp(global.player.rendery, global.player.cy, 0.1, true);
     let px = ratio * global.player.renderx,
         py = ratio * global.player.rendery;
+
+    // Get the player's target
+    calculateTarget();
 
     //draw the in game stuff
     drawFloor(px, py, ratio);
