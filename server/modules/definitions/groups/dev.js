@@ -69,7 +69,7 @@ exports.developer = {
     ],
     REROOT_UPGRADE_PATH: "developer",
 };
-
+exports.tools = {PARENT: ["menu"], LABEL: "Tools"};
 exports.spectator = {
     PARENT: ["menu"],
     LABEL: "Spectator",
@@ -1377,8 +1377,8 @@ exports.addons = {
 };
 
 exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "spectator", "levels", "teams", "eggGenerator", "rockGenerator", "testing", "addons"];
-    exports.tanks.UPGRADES_TIER_0 = ["basic", "unavailable", "spectator", "dominators", "sanctuaries", "mothership", "baseProtector", "antiTankMachineGun", "arenaCloser"];
-        exports.unavailable.UPGRADES_TIER_0 = ["healer"];
+    exports.tanks.UPGRADES_TIER_0 = ["basic", "healer", "spectator", "dominators", "sanctuaries", "mothership", "baseProtector", "antiTankMachineGun", "arenaCloser"];
+        //exports.unavailable.UPGRADES_TIER_0 = ["healer"];
         exports.dominators.UPGRADES_TIER_0 = ["destroyerDominator", "gunnerDominator", "trapperDominator"];
         exports.sanctuaries.UPGRADES_TIER_0 = ["sanctuaryTier1", "sanctuaryTier2", "sanctuaryTier3", "sanctuaryTier4", "sanctuaryTier5", "sanctuaryTier6"];
 
