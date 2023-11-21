@@ -439,7 +439,7 @@ exports.rocketeerMissile = {
 exports.surgeonPillboxTurret = {
     PARENT: ["genericTank"],
     LABEL: "",
-    COLOR: 16,
+    COLOR: "grey",
     BODY: {
         FOV: 3,
     },
@@ -798,7 +798,7 @@ exports.autoTankGun = {
         FOV: 3,
     },
     CONTROLLERS: ["canRepel", "onlyAcceptInArc", "mapAltToFire", "nearestDifferentMaster"],
-    COLOR: 16,
+    COLOR: "grey",
     GUNS: [
         {
             POSITION: [22, 10, 1, 0, 0, 0, 0],
@@ -831,7 +831,7 @@ exports.bansheegun = {
     PARENT: ["genericTank"],
     LABEL: "",
     CONTROLLERS: ["canRepel", "onlyAcceptInArc", "mapAltToFire", "nearestDifferentMaster"],
-    COLOR: 16,
+    COLOR: "grey",
     INDEPENDENT: true,
     GUNS: [
         {
@@ -850,7 +850,7 @@ exports.auto4gun = {
         FOV: 2,
     },
     CONTROLLERS: ["canRepel", "onlyAcceptInArc", "mapAltToFire", "nearestDifferentMaster"],
-    COLOR: 16,
+    COLOR: "grey",
     GUNS: [
         {
             POSITION: [16, 4, 1, 0, -3.5, 0, 0],
@@ -877,7 +877,7 @@ exports.bigauto4gun = {
         "mapAltToFire",
         "nearestDifferentMaster",
     ],
-    COLOR: 16,
+    COLOR: "grey",
     GUNS: [
         {
             POSITION: [14, 5, 1, 0, -4.5, 0, 0],
@@ -934,7 +934,7 @@ exports.megaAutoTankgun = {
         SPEED: 0.9,
     },
     CONTROLLERS: ["canRepel", "onlyAcceptInArc", "mapAltToFire", "nearestDifferentMaster"],
-    COLOR: 16,
+    COLOR: "grey",
     GUNS: [
         {
             POSITION: [22, 14, 1, 0, 0, 0, 0],
@@ -952,7 +952,7 @@ exports.autoTurret = {
     BODY: {
         FOV: 0.8,
     },
-    COLOR: 16,
+    COLOR: "grey",
     GUNS: [
         {
             POSITION: [22, 10, 1, 0, 0, 0, 0],
@@ -969,7 +969,7 @@ exports.droneAutoTurret = {
     BODY: {
         FOV: 0.8,
     },
-    COLOR: 16,
+    COLOR: "grey",
     GUNS: [
         {
             POSITION: [22, 10, 1, 0, 0, 0, 0],
@@ -983,7 +983,7 @@ exports.droneAutoTurret = {
 exports.autoSmasherTurret = {
     PARENT: ["genericTank"],
     LABEL: "Turret",
-    COLOR: 16,
+    COLOR: "grey",
     GUNS: [
         {
             POSITION: [20, 6, 1, 0, 5, 0, 0],
@@ -1006,7 +1006,7 @@ exports.autoSmasherTurret = {
 exports.architectGun = {
     PARENT: ["genericTank"],
     LABEL: "",
-    COLOR: 16,
+    COLOR: "grey",
     GUNS: [
         {
             POSITION: [20, 16, 1, 0, 0, 0, 0],
@@ -1024,7 +1024,7 @@ exports.architectGun = {
 exports.pillboxTurret = {
     PARENT: ["genericTank"],
     LABEL: "",
-    COLOR: 16,
+    COLOR: "grey",
     BODY: {
         FOV: 2,
     },
@@ -1124,37 +1124,31 @@ exports.homingBullet = {
 exports.smasherBody = {
     LABEL: "",
     CONTROLLERS: [["spin", { independent: true }]],
-    COLOR: 9,
+    COLOR: "black",
     SHAPE: 6,
     INDEPENDENT: true,
 };
 exports.landmineBody = {
-    LABEL: "",
+    PARENT: ["smasherBody"],
     CONTROLLERS: [["spin", { independent: true, speed: 0.08 }]],
-    COLOR: 9,
-    SHAPE: 6,
-    INDEPENDENT: !0,
 };
 exports.spikeBody = {
     LABEL: "",
     CONTROLLERS: [["spin", { independent: true }]],
-    COLOR: 9,
+    COLOR: "black",
     SHAPE: 3,
     INDEPENDENT: true,
 };
 exports.weirdSpikeBody1 = {
     LABEL: "",
     CONTROLLERS: [["spin", { independent: true, speed: 0.08 }]],
-    COLOR: 9,
+    COLOR: "black",
     SHAPE: 3,
     INDEPENDENT: true,
 };
 exports.weirdSpikeBody2 = {
-    LABEL: "",
+    PARENT: ["weirdSpikeBody1"],
     CONTROLLERS: [["spin", { independent: true, speed: -0.05 }]],
-    COLOR: 9,
-    SHAPE: 3,
-    INDEPENDENT: true,
 };
 
 // BASIC TANK AND STARTING UPGRADES
@@ -1180,7 +1174,7 @@ exports.basic = {
             PROPERTIES: {
                 SHOOT_SETTINGS: combineStats([g.basic]),
                 TYPE: "bullet",
-                COLOR: 16,
+                COLOR: "grey",
                 LABEL: "",
                 STAT_CALCULATOR: 0,
                 WAIT_TO_CYCLE: false,
@@ -4832,7 +4826,7 @@ exports.assemblerEffect = {
 exports.assemblerDot = {
     LABEL: '',
     SHAPE: -4,
-    COLOR: 17
+    COLOR: "darkGrey"
 };
 exports.assemblerTrap = {
     PARENT: ['setTrap'],

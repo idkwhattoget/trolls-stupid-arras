@@ -22,7 +22,7 @@ exports.rock = {
     },
     VALUE: 0,
     SIZE: 60,
-    COLOR: 16,
+    COLOR: "grey",
     VARIES_IN_SIZE: true,
     ACCEPTS_SCORE: false,
 };
@@ -57,7 +57,7 @@ exports.wall = {
 exports.dominationBody = {
     LABEL: "",
     CONTROLLERS: [["spin", { startAngle: Math.PI / 2, speed: 0, independent: true }]],
-    COLOR: 9,
+    COLOR: "black",
     SHAPE: 6,
     INDEPENDENT: true,
 };
@@ -372,7 +372,7 @@ for (let tier of sancTiers) {
 exports.crasher = {
     TYPE: "crasher",
     LABEL: "Crasher",
-    COLOR: 5,
+    COLOR: "pink",
     SHAPE: 3,
     SIZE: 5,
     VARIES_IN_SIZE: true,
@@ -401,7 +401,7 @@ exports.crasherSpawner = {
     LABEL: "Spawned",
     STAT_NAMES: statnames.drone,
     CONTROLLERS: ["nearestDifferentMaster"],
-    COLOR: 5,
+    COLOR: "pink",
     INDEPENDENT: true,
     AI: {
         chase: true,
@@ -434,7 +434,8 @@ exports.sentry = {
     TYPE: "crasher",
     LABEL: "Sentry",
     DANGER: 3,
-    COLOR: 5,
+    COLOR: "pink",
+    UPGRADE_COLOR: "pink",
     SHAPE: 3,
     SIZE: 10,
     SKILL: skillSet({
@@ -477,7 +478,7 @@ exports.trapTurret = {
     },
     INDEPENDENT: true,
     CONTROLLERS: ["nearestDifferentMaster", 'onlyAcceptInArc'],
-    COLOR: 16,
+    COLOR: "grey",
     AI: {
         SKYNET: true,
         FULL_VIEW: true,
@@ -514,7 +515,7 @@ exports.shottrapTurret = {
     },
     INDEPENDENT: true,
     CONTROLLERS: ['nearestDifferentMaster', 'onlyAcceptInArc'], 
-    COLOR: 16,
+    COLOR: "grey",
     AI: {
         SKYNET: true,
         FULL_VIEW: true,
@@ -563,7 +564,7 @@ exports.barricadeTurret = {
     },
     INDEPENDENT: true,
     CONTROLLERS: ["nearestDifferentMaster"],
-    COLOR: 16,
+    COLOR: "grey",
     AI: {
         SKYNET: true,
         FULL_VIEW: true,
@@ -602,6 +603,7 @@ exports.barricadeTurret = {
 exports.sentrySwarm = {
     PARENT: ["sentry"],
     UPGRADE_LABEL: "Swarm Sentry",
+    UPGRADE_COLOR: "pink",
     GUNS: [
         {
             POSITION: [7, 14, 0.6, 7, 0, 180, 0],
@@ -648,7 +650,8 @@ exports.sentryTrap = makeAuto(exports.sentry, "Sentry", {
 exports.sentryTrap.UPGRADE_LABEL = "Trap Sentry";
 exports.shinySentry = {
     PARENT: ["sentry"],
-    COLOR: 1,
+    COLOR: "lightGreen",
+    UPGRADE_COLOR: "lightGreen",
     DANGER: 4,
     SIZE: 12,
     VALUE: 50000,
@@ -660,6 +663,7 @@ exports.shinySentry = {
 exports.shinySentrySwarm = {
     PARENT: ["shinySentry"],
     UPGRADE_LABEL: "Shiny Swarm Sentry",
+    UPGRADE_COLOR: "lightGreen",
     GUNS: [
         {
             POSITION: [6, 11, 1.3, 7, 0, 180, 0],
@@ -683,7 +687,7 @@ exports.artilleryAutoTankgun = {
         "mapAltToFire",
         "nearestDifferentMaster",
     ],
-    COLOR: 16,
+    COLOR: "grey",
     GUNS: [{
         POSITION: [17, 3, 1, 0, -6, -7, 0.25],
         PROPERTIES: {
@@ -723,7 +727,7 @@ exports.barricadeAutoTankGun = {
     },
     INDEPENDENT: true,
     CONTROLLERS: ["nearestDifferentMaster"],
-    COLOR: 16,
+    COLOR: "grey",
     AI: {
         SKYNET: true,
         FULL_VIEW: true,
@@ -770,7 +774,7 @@ exports.sentinel = {
   TYPE: "crasher",
   LABEL: "Sentinel",
   DANGER: 7,
-  COLOR: 14,
+  COLOR: "purple",
   SHAPE: 5,
   SIZE: 13,
   SKILL: skillSet({
@@ -855,6 +859,7 @@ exports.sentinelMissile = {
 exports.sentinelLauncher = {
   PARENT: ["sentinel"],
   UPGRADE_LABEL: "Missile Sentinel",
+  UPGRADE_COLOR: "purple",
   GUNS: [
     {
       POSITION: [3, 12.45, -1.35, 17.2, 0, 0, 0],
@@ -881,6 +886,7 @@ exports.sentinelLauncher = {
 exports.sentinelCrossbow = {
   PARENT: ["sentinel"],
   UPGRADE_LABEL: "Crossbow Sentinel",
+  UPGRADE_COLOR: "purple",
     GUNS: [
         {
             POSITION: [15, 2.5, 1, 0, 3.5, 35/2, 2/3],
@@ -957,6 +963,7 @@ exports.sentinelCrossbow = {
 exports.sentinelMinigun = {
   PARENT: ["sentinel"],
   UPGRADE_LABEL: "Minigun Sentinel",
+  UPGRADE_COLOR: "purple",
   GUNS: [
   {
       POSITION: [16, 7.5, 1, 0, 4.5, 0, 0.2],
@@ -1043,7 +1050,7 @@ exports.sentinelMinigun = {
 exports.baseSwarmTurret = {
     PARENT: ["genericTank"],
     LABEL: "Protector",
-    COLOR: 16,
+    COLOR: "grey",
     BODY: {
         FOV: 2,
     },
@@ -1228,7 +1235,8 @@ exports.arenaCloser = {
     NAME: "Arena Closer",
     DANGER: 10,
     SIZE: 34,
-    COLOR: 3,
+    COLOR: "yellow",
+    UPGRADE_COLOR: "yellow",
     LAYER: 13,
     BODY: {
         REGEN: 1e5,
@@ -3043,7 +3051,7 @@ exports.flail.UPGRADES_TIER_2 = ["doubleFlail", "mace", "flangle"];
 exports.tracker3gun = {
   PARENT: ["genericTank"],
   LABEL: "",
-  COLOR: 34,
+  COLOR: "timeGem",
   BODY: {
     FOV: 3,
   },
