@@ -7,7 +7,8 @@ module.exports = {
     power: { shudder: 0.6, size: 1.2, pen: 1.25, speed: 2, maxSpeed: 1.7, density: 2, spray: 0.5, resist: 1.5 },
     fake: { recoil: 0.00001, size: 0.00001, health: 0.0001, speed: 0.00001, maxSpeed: 2, range: 0 },
     op: { reload: 0.5, recoil: 1.3, health: 4, damage: 4, pen: 4, speed: 3, maxSpeed: 2, density: 5, spray: 2 },
-    closer: { reload: 1.25, recoil: 0.25, health: 1000, damage: 1000, pen: 1000, speed: 2.5, maxSpeed: 2.25, range: 1.4, density: 4, spray: 0.25 },
+    closer: { reload: 1.25, recoil: 0.25, health: 1000, damage: 1000, pen: 1000, speed: 2.5, maxSpeed: 2.25, range: 2, density: 4, spray: 0 },
+    opCloser: { reload: 0.8, recoil: 0.25, health: 5e6, damage: 5e6, pen: 5e6, speed: 6.5, maxSpeed: 6.25, range: 8, density: 4, spray: 0 },
 
     // Bases
     basic: { reload: 18, recoil: 1.4, shudder: 0.1, damage: 0.75, speed: 6, spray: 15 },

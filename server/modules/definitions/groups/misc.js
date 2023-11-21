@@ -1238,7 +1238,8 @@ exports.arenaCloser = {
         FOV: 10,
         SPEED: 8,
     },
-    SKILL: skillSet({ rld: 1, dam: 1, pen: 1, str: 1, spd: 1, atk: 1, hlt: 1, shi: 1, rgn: 1, mob: 1 }),
+    SKILL_CAP: Array(10).fill(255),
+    SKILL: Array(10).fill(255),
     DRAW_HEALTH: false,
     HITS_OWN_TYPE: "never",
     ARENA_CLOSER: true,
@@ -1246,6 +1247,35 @@ exports.arenaCloser = {
         POSITION: [14, 10, 1, 0, 0, 0, 0],
         PROPERTIES: {
             SHOOT_SETTINGS: combineStats([g.basic, g.closer]),
+            TYPE: [ "bullet", { LAYER: 12 } ]
+        }
+    }]
+};
+exports.arenaAnnihilator = {
+    PARENT: ["genericTank"],
+    LABEL: "Arena Annihilator",
+    NAME: "Arena Annihilator",
+    DANGER: 10,
+    SIZE: 34,
+    COLOR: 3,
+    LAYER: 13,
+    BODY: {
+        REGEN: 1e5,
+        HEALTH: 1e6,
+        DENSITY: 30,
+        DAMAGE: 1e5,
+        FOV: 10,
+        SPEED: 8,
+    },
+    SKILL_CAP: Array(10).fill(255),
+    SKILL: Array(10).fill(255),
+    DRAW_HEALTH: false,
+    HITS_OWN_TYPE: "never",
+    ARENA_CLOSER: true,
+    GUNS: [{
+        POSITION: [20.5, 19.5, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.opCloser]),
             TYPE: [ "bullet", { LAYER: 12 } ]
         }
     }]

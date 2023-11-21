@@ -1,7 +1,6 @@
 // TODO:
 const newCommands = false; // enables beta commands (DISABLES OLD COMMANDS)
 const commands = Array();
-const { closeArena } = require("../../gamemodes/closeArena.js");
 
 class Command {
 	constructor(name, { description, aliases, args, developer }, callback) {
@@ -21,7 +20,7 @@ class Command {
 	}
 
 	run({ args, socket, preventDefault, perms }) {
-		if (this.developerOnly && !perms.class == 'developer') {
+		if (this.developerOnly && perms.class != 'developer') {
 			return this.fail(preventDefault, 'You do not have permission to use this command');
 		}
 
@@ -124,7 +123,7 @@ module.exports = ({ Events, Class }) => {
 			}// break;
 		}
 
-		if (perms && perms.class != 'developer') return;
+		if (!perms || perms.class != 'developer') return;
 
 		switch (cmd) {
 			case 'kill':
@@ -163,11 +162,11 @@ module.exports = ({ Events, Class }) => {
 				if (args.length == 0) return fail();
 				sockets.broadcast(args.join(' '));
 				break;
-			case 'closearena':
+			case 'closeArena':
 				closeArena();
 				break;
 			case 'wall': {
-				// /wall [grid/r] | [X Y SIZE]
+				// /wall [grid] | [X Y SIZE]
 				if (args.length < 1 || args.length > 3) return fail();
 				const { x, y } = socket.player.body;
 				let pos = {};
@@ -175,8 +174,6 @@ module.exports = ({ Events, Class }) => {
 					const at = room.isAt({ x, y });
 					if (at == false) return fail();
 					pos = { x: at.x, y: at.y };
-				} else if (args[0] == "r") {
-					pos = { x: socket.player.body.x, y: socket.player.body.y }
 				} else {
 					pos = { x: x + Number(args[0]), y, y: y + Number(args[1]) }
 				}
