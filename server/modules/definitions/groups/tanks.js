@@ -1024,6 +1024,20 @@ exports.spikeBody = {
     PARENT: ["smasherBody"],
     SHAPE: 3
 }
+exports.weirdSpikeBody1 = {
+    LABEL: "",
+    CONTROLLERS: [["spin", { independent: true, speed: 0.08 }]],
+    COLOR: 9,
+    SHAPE: 3,
+    INDEPENDENT: true,
+};
+exports.weirdSpikeBody2 = {
+    LABEL: "",
+    CONTROLLERS: [["spin", { independent: true, speed: -0.05 }]],
+    COLOR: 9,
+    SHAPE: 3,
+    INDEPENDENT: true,
+};
 
 // Basic & starting upgrades
 exports.basic = {
