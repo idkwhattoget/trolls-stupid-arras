@@ -890,7 +890,7 @@ const spawn = (socket, name) => {
         util.remove(disconnections, disconnections.indexOf(recover));
         clearTimeout(recover.timeout);
         body = recover.body;
-        body.reset(false);
+        body.controllers = body.controllers.filter(con => !(con instanceof ioTypes.listenToPlayer));
         body.become(player);
         player.team = body.team;
     } else {
@@ -978,13 +978,15 @@ function flatten(data) {
             /*  2 */ data.layer,
             /*  3 */ data.index,
             /*  4 */ data.color,
-            /*  5 */ data.size,
-            /*  6 */ data.realSize,
-            /*  7 */ data.sizeFactor,
-            /*  8 */ data.angle,
-            /*  9 */ data.direction,
-            /* 10 */ data.offset,
-            /* 11 */ data.mirrorMasterAngle,
+            /*  5 */ data.borderless,
+            /*  6 */ data.drawFill,
+            /*  7 */ data.size,
+            /*  8 */ data.realSize,
+            /*  9 */ data.sizeFactor,
+            /* 10 */ data.angle,
+            /* 11 */ data.direction,
+            /* 12 */ data.offset,
+            /* 13 */ data.mirrorMasterAngle,
         );
     } else {
         output.push(
@@ -1001,15 +1003,17 @@ function flatten(data) {
             /* 11 */ data.twiggle,
             /* 12 */ data.layer,
             /* 13 */ data.color,
-            /* 14 */ data.invuln,
-            /* 15 */ Math.ceil(65535 * data.health),
-            /* 16 */ Math.round(65535 * data.shield),
-            /* 17 */ Math.round(255 * data.alpha),
+            /* 14 */ data.borderless,
+            /* 15 */ data.drawFill,
+            /* 16 */ data.invuln,
+            /* 17 */ Math.ceil(65535 * data.health),
+            /* 18 */ Math.round(65535 * data.shield),
+            /* 19 */ Math.round(255 * data.alpha),
         );
         if (data.type & 0x04) {
             output.push(
-                /* 18 */ data.name,
-                /* 19 */ data.score
+                /* 20 */ data.name,
+                /* 21 */ data.score
             );
         }
     }
@@ -1280,12 +1284,12 @@ const Delta = class {
 let minimapAll = new Delta(5, () => {
     let all = [];
     for (let my of entities) {
-        if (my.alwaysShowOnMinimap ||
+        if (my.allowedOnMinimap && (
+            my.alwaysShowOnMinimap ||
             (my.type === "wall" && my.alpha > 0.2) ||
             my.type === "miniboss" ||
-            (my.type === "tank" && my.lifetime) ||
             my.isMothership
-        ) {
+        )) {
             all.push({
                 id: my.id,
                 data: [
@@ -1306,7 +1310,7 @@ let minimapTeams = teamIDs.map((team) =>
     new Delta(3, () => {
         let all = [];
         for (let my of entities)
-            if (my.type === "tank" && my.team === -team && my.master === my && !my.lifetime) {
+            if (my.type === "tank" && my.team === -team && my.master === my && my.allowedOnMinimap) {
                 all.push({
                     id: my.id,
                     data: [
@@ -1392,7 +1396,7 @@ setInterval(() => {
     let leaderboardUpdate = leaderboard.update();
     for (let socket of subscribers) {
         if (!socket.status.hasSpawned) continue;
-        let team = minimapTeamUpdates[socket.player.team - 1];
+        let team = minimapTeamUpdates[-socket.player.team - 1];
         if (socket.status.needsNewBroadcast) {
             socket.talk("b", ...minimapUpdate.reset, ...(team ? team.reset : [0, 0]), ...(socket.anon ? [0, 0] : leaderboardUpdate.reset));
             socket.status.needsNewBroadcast = false;

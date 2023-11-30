@@ -189,6 +189,7 @@ class Gun {
         return {
             ...this.lastShot, 
             color: this.color,
+            alpha: this.alpha,
             borderless: this.borderless, 
             drawFill: this.drawFill, 
             drawAbove: this.drawAbove,
@@ -712,6 +713,7 @@ class StatusEffect extends EventEmitter {
 }
 
 let entitiesIdLog = 0;
+const forceTwiggle = ["autospin", "turnWithSpeed", "spin", "fastspin", "withMotion", "smoothWithMotion", "looseWithMotion"];
 class Entity extends EventEmitter {
     constructor(position, master) {
         super();
@@ -807,6 +809,7 @@ class Entity extends EventEmitter {
         this.define("genericEntity");
         // Initalize physics and collision
         this.alwaysShowOnMinimap = false;
+        this.allowedOnMinimap = true;
         this.maxSpeed = 0;
         this.facingLocked = false;
         this.facing = 0;
@@ -1252,6 +1255,7 @@ class Entity extends EventEmitter {
             for (let root of this.rerootUpgradeTree) finalRoot += root + "\\/";
             this.rerootUpgradeTree = finalRoot.substring(0, finalRoot.length - 2);
         }
+        if (set.ON_MINIMAP != null) this.allowedOnMinimap = set.ON_MINIMAP;
         if (set.TURRETS != null) {
             for (let i = 0; i < this.turrets.length; i++) {
                 this.turrets[i].destroy();
@@ -1613,9 +1617,11 @@ class Entity extends EventEmitter {
             mirrorMasterAngle: this.settings.mirrorMasterAngle ?? false,
             perceptionAngleIndependence: this.perceptionAngleIndependence, //vfacing: this.vfacing,
             defaultAngle: this.firingArc[0],
-            twiggle: this.facingType === "autospin" || this.facingType === "spin" || this.facingType === "fastspin" || (this.facingType === "locksFacing" && this.control.alt),
+            twiggle: forceTwiggle.includes(this.facingType) || (this.facingType === "locksFacing" && this.control.alt),
             layer: this.layerID ? this.layerID : this.bond != null ? this.bound.layer : this.type === "wall" ? 11 : this.type === "food" ? 10 : this.type === "tank" ? 5 : this.type === "crasher" ? 1 : 0,
             color: this.color,
+            borderless: this.borderless,
+            drawFill: this.drawFill,
             name: (this.nameColor || "#FFFFFF") + this.name,
             score: this.skill.score,
             guns: this.guns.map((gun) => gun.getPhotoInfo()),

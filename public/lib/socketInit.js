@@ -329,6 +329,7 @@ const GunContainer = n => {
             isUpdated: true,
             configLoaded: false,
             color: "",
+            alpha: 0,
             borderless: false, 
             drawFill: true, 
             drawAbove: false,
@@ -364,6 +365,7 @@ const GunContainer = n => {
             if (!g.configLoaded) {
                 g.configLoaded = true;
                 g.color = c.color;
+                g.alpha = c.alpha;
                 g.borderless = c.borderless; 
                 g.drawFill = c.drawFill;
                 g.drawAbove = c.drawAbove;
@@ -426,6 +428,8 @@ const process = (z = {}) => {
         z.layer = get.next();
         z.index = get.next();
         z.color = get.next();
+        z.borderless = get.next();
+        z.drawFill = get.next();
         z.size = get.next();
         z.realSize = get.next();
         z.sizeFactor = get.next();
@@ -467,6 +471,8 @@ const process = (z = {}) => {
         z.twiggle = get.next();
         z.layer = get.next();
         z.color = get.next();
+        z.borderless = get.next();
+        z.drawFill = get.next();
         let invuln = get.next();
         // Update health, flagging as injured if needed
         if (isNew) {
@@ -540,6 +546,7 @@ const process = (z = {}) => {
         let time = get.next(),
             power = get.next(),
             color = get.next(),
+            alpha = get.next(),
             borderless = get.next(),
             drawFill = get.next(),
             drawAbove = get.next(),
@@ -549,7 +556,7 @@ const process = (z = {}) => {
             angle = get.next(),
             direction = get.next(),
             offset = get.next();
-        z.guns.setConfig(i, {color, borderless, drawFill, drawAbove, length, width, aspect, angle, direction, offset}); // Load gun config into container
+        z.guns.setConfig(i, {color, alpha, borderless, drawFill, drawAbove, length, width, aspect, angle, direction, offset}); // Load gun config into container
         if (time > global.player.lastUpdate - global.metrics.rendergap) z.guns.fire(i, power); // Shoot it
     }
     // Update turrets
@@ -682,7 +689,6 @@ const convert = {
     broadcast: () => {
         let all = get.all();
         let by = minimapAllInt.update(all);
-        minimapTeamInt.reset();
         by = minimapTeamInt.update(all, by);
         by = leaderboardInt.update(all, by);
         get.take(by);
@@ -870,10 +876,14 @@ const socketInit = port => {
                     clockDiff = Math.round(sum / valid);
                     // Start the game
                     console.log(sync);
-                    console.log('Syncing complete, calculated clock difference ' + clockDiff + 'ms. Beginning game.');
-                    global.gameStart = true;
-                    global.entities = [];
-                    global.message = '';
+                    console.log('Syncing complete, calculated clock difference ' + clockDiff + 'ms.');
+                    global.message = 'Loading mockups, this could take a bit...';
+                    global.mockupLoading.then(() => {
+                        console.log('Beginning game.');
+                        global.gameStart = true;
+                        global.entities = [];
+                        global.message = '';
+                    });
                 }
                 break;
             case 'm': // message

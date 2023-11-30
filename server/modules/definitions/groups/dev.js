@@ -773,16 +773,12 @@ exports.vulnturrettest = {
 exports.alphaGunTest = {
     PARENT: "basic",
     LABEL: "Alpha Gun Test",
-    ON: [{
-        event: "fire",
-        handler: ({ gun }) => console.log(gun.alpha)
-    }],
     GUNS: [{
         POSITION: {},
         PROPERTIES: {
             SHOOT_SETTINGS: combineStats([g.basic]),
             TYPE: 'bullet',
-            ALPHA: 0
+            ALPHA: 0.5
         }
     }]
 }
@@ -1413,4 +1409,8 @@ exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "spectator", "levels", "
         exports.funTanks.UPGRADES_TIER_0 = ["florr_tank", "vanquisher", "armyOfOne", "godbasic", "maximumOverdrive", "meonwaymytodoyourmom", "medoingyourmom", "mummifier", "auraBasic", "auraHealer", "weirdAutoBasic", "ghoster", "switcheroo", "tracker3", "splitTanks", "tank", "spamOctoTank", "lambo", "bugatti", "ssc"];
             exports.splitTanks.UPGRADES_TIER_0 = [["developer", "basic"], ["developer", "developer"], ["aura", "basic"], ["aura", "basic"]];
         exports.testingTanks.UPGRADES_TIER_0 = ["diamondShape", "rotatedTrap", "colorMan", "miscTest", "mmaTest", "vulnturrettest", "onTest", "alphaGunTest"];
+        exports.legacyTanks.UPGRADES_TIER_0 = ["weirdSpike", "oldBentBoomer", "quadBuilder", "master", "blunderbuss", "oldRimfire", "oldSpreadshot", "oldCommander", "autoTrapper", "prodigy", "mender", "tetraGunner", "corvette", "whirlwind", "flail"];
+    exports.testing.UPGRADES_TIER_0 = ["funTanks", "testingTanks"];
+        exports.funTanks.UPGRADES_TIER_0 = ["florr_tank", "vanquisher", "armyOfOne", "godbasic", "maximumOverdrive", "mummifier", "auraBasic", "auraHealer", "weirdAutoBasic", "ghoster", "switcheroo", "tracker3", ["developer", "developer"]];
+        exports.testingTanks.UPGRADES_TIER_0 = ["diamondShape", "rotatedTrap", "colorMan", "miscTest", "mmaTest", "vulnturrettest", "onTest", "alphaGunTest", "testLayeredBoss"];
         exports.legacyTanks.UPGRADES_TIER_0 = ["weirdSpike", "oldBentBoomer", "quadBuilder", "master", "blunderbuss", "oldRimfire", "oldSpreadshot", "oldCommander", "autoTrapper", "prodigy", "mender", "tetraGunner", "corvette", "whirlwind", "flail"];

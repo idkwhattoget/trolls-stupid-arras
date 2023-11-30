@@ -1451,7 +1451,7 @@ exports.bob = {
         },
         {
             POSITION: [23.75, 0, 0, 0, 360, 0],
-            TYPE: "weirdSpikeBody1",
+            TYPE: "spikeBody",
         },
     ],
 };
@@ -1810,7 +1810,6 @@ exports.gersemiLowerBody = {
     LABEL: "",
     CONTROLLERS: [["spin", { independent: true, speed: -0.005 }]],
     COLOR: "lightGreen",
-    UPGRADE_COLOR: "lightGreen",
     SIZE: 100,
     SKILL: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
     SHAPE: 5,
@@ -1855,6 +1854,7 @@ exports.gersemi = {
     NAME: "Gersemi",
     UPGRADE_LABEL: "Gersemi",
     COLOR: "lightGreen",
+    UPGRADE_COLOR: "lightGreen",
     TURRETS: [
         {
             POSITION: [14.5, 0, 0, 0, 360, 1],
@@ -3772,6 +3772,38 @@ exports.alviss = {
 };
 
 // GENGHIS
+exports.tinyMinion = {
+    PARENT: ["minion"],
+    LABEL: "Tiny Minion",
+    ACCEPTS_SCORE: false,
+    SHAPE: 0,
+    MOTION_TYPE: 'swarm',
+    CRAVES_ATTENTION: true,
+    BODY: {
+        ACCELERATION: 3,
+        PENETRATION: 1.5,
+        HEALTH: 0.35 * 0.5,
+        DAMAGE: 2.25,
+        RESIST: 1.6,
+        RANGE: 300,
+        DENSITY: 12,
+        PUSHABILITY: 0.5,
+        FOV: 1.5,
+    },
+    AI: {
+        BLIND: true,
+    },
+    GUNS: [ { /*** LENGTH    WIDTH     ASPECT        X             Y         ANGLE     DELAY */
+        POSITION: [    17,         9,            1,            0,            0,            0,            0,     ],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.minion, g.lowpower]),
+            WAIT_TO_CYCLE: true,
+            TYPE: "bullet",
+        }, },
+    ],
+    DIE_AT_RANGE: true,
+    BUFF_VS_FOOD: true,
+}
 exports.tyrLowerTurret = {
     PARENT: ["genericTank"],
     LABEL: "",
@@ -5453,3 +5485,71 @@ exports.trplnrBossVulnerableForm = {
         }
     }]
 }
+
+class LayeredBoss {
+    constructor(identifier, NAME, PARENT = "celestial", SHAPE = 9, COLOR = 0, trapTurretType = "baseTrapTurret", trapTurretSize = 6.5, layerScale = 5, BODY, SIZE, VALUE) {
+        this.identifier = identifier ?? NAME.charAt(0).toLowerCase() + NAME.slice(1);
+        this.layerID = 0;
+        exports[this.identifier] = {
+            PARENT, SHAPE, NAME, COLOR, BODY, SIZE, VALUE,
+            TURRETS: Array(SHAPE).fill().map((_, i) => ({
+                POSITION: [trapTurretSize, 9, 0, 360 / SHAPE * (i + 0.5), 180, 0],
+                TYPE: trapTurretType,
+            })),
+        };
+        this.layerScale = layerScale;
+        this.shape = SHAPE;
+    }
+
+    addLayer({gun, turret}, decreaseSides = true, MAX_CHILDREN) {
+        this.layerID++;
+        this.shape -= decreaseSides ? 2 : 0;
+        let layer = {
+            PARENT: "genericTank",
+            SHAPE: this.shape,
+            COLOR: -1,
+            INDEPENDENT: true,
+            CONTROLLERS: [["spin", { independent: true, speed: 0.02 / c.runSpeed * (this.layerID % 2 ? -1 : 1) }]],
+            MAX_CHILDREN, 
+            GUNS: [],
+            TURRETS: [],
+        };
+        if (gun) {
+            for (let i = 0; i < this.shape; i++) {
+                layer.GUNS.push({
+                    POSITION: gun.POSITION.map(n => n ?? 360 / this.shape * (i + 0.5)),
+                    PROPERTIES: gun.PROPERTIES,
+                });
+            }
+        }
+        if (turret) {
+            for (let i = 0; i < this.shape; i++) {
+                layer.TURRETS.push({
+                    POSITION: turret.POSITION.map(n => n ?? 360 / this.shape * (i + 0.5)),
+                    TYPE: turret.TYPE,
+                });
+            }
+        }
+
+        exports[this.identifier + "Layer" + this.layerID] = layer;
+        exports[this.identifier].TURRETS.push({
+            POSITION: [20 - this.layerScale * this.layerID, 0, 0, 0, 360, 1],
+            TYPE: this.identifier + "Layer" + this.layerID,
+        });
+    }
+}
+
+let testLayeredBoss = new LayeredBoss("testLayeredBoss", "Test Layered Boss", "terrestrial", 7, 3, "terrestrialTrapTurret", 5, 7, {SPEED: 10});
+testLayeredBoss.addLayer({gun: {
+    POSITION: [3.6, 7, -1.4, 8, 0, null, 0],
+    PROPERTIES: {
+        SHOOT_SETTINGS: combineStats([g.factory, g.celeslower]),
+        TYPE: ["minion", {INDEPENDENT: true}],
+        AUTOFIRE: true,
+        SYNCS_SKILLS: true,
+    },
+}}, true, 16);
+testLayeredBoss.addLayer({turret: {
+    POSITION: [10, 7.5, 0, null, 160, 0],
+    TYPE: "crowbarTurret",
+}}, true);

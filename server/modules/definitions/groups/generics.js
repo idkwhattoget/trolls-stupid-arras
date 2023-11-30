@@ -1,4 +1,4 @@
-const { base, dfltskl, smshskl } = require('../constants.js');
+const { base, statnames, dfltskl, smshskl } = require('../constants.js');
 
 exports.genericEntity = {
     NAME: "",
@@ -54,8 +54,6 @@ exports.genericEntity = {
     UPGRADES_TIER_9: [],
     SKILL: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     LEVEL: 0,
-    BORDERLESS: false,
-    DRAW_FILL: true,
     SKILL_CAP: Array(10).fill(dfltskl),
     GUNS: [],
     MAX_CHILDREN: 0,
@@ -80,12 +78,12 @@ exports.genericEntity = {
         DENSITY: 1,
         STEALTH: 1,
         PUSHABILITY: 1,
-        HETERO: 2,
+        HETERO: 2
     },
     FOOD: {
-        LEVEL: -1,
-    },
-};
+        LEVEL: -1
+    }
+}
 exports.genericTank = {
     LABEL: "Unknown Class",
     TYPE: "tank",
@@ -116,8 +114,19 @@ exports.genericTank = {
     ON: [],
     GIVE_KILL_MESSAGE: true,
     DRAW_HEALTH: true,
-    HITS_OWN_TYPE: "hardOnlyTanks",
-};
+    HITS_OWN_TYPE: "hardOnlyTanks"
+}
+exports.genericSmasher = {
+    PARENT: "genericTank",
+    DANGER: 7,
+    IS_SMASHER: true,
+    SKILL_CAP: [smshskl, 0, 0, 0, 0, smshskl, smshskl, smshskl, smshskl, smshskl],
+    STAT_NAMES: statnames.smasher,
+    BODY: {
+        FOV: 1.05 * base.FOV,
+        DENSITY: 2 * base.DENSITY
+    }
+}
 
 exports.food = {
     TYPE: "food",
@@ -285,7 +294,7 @@ exports.healAura = {
     HEALER: true,
     COLOR: "red",
     BODY: {
-        DAMAGE: 0.5/3,
+        DAMAGE: 0.1,
     },
 };
 exports.auraSymbol = {
