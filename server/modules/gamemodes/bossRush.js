@@ -51,7 +51,7 @@ class BossRush {
             [100, "kronos"],
             [100, "ragnarok"],
         ];
-        this.friendlyBossChoices = ["roguePalisade", "rogueArmada", "alviss", "tyr", "fiolnir"];
+        this.friendlyBossChoices = ["roguePalisade", "rogueArmada", "julius", "ghengis", "napoleon"];
         this.bigFodderChoices = ["sentryGun", "sentrySwarm", "sentryTrap", "shinySentryGun"];
         this.smallFodderChoices = ["crasher"];
         this.waves = this.generateWaves();
@@ -98,8 +98,7 @@ class BossRush {
         o.skill.score = 111069;
         o.name = 'Sanctuary';
         o.SIZE = room.tileWidth / 10;
-        o.isDominator = false;
-        o.controllers = [new ioTypes.nearestDifferentMaster(o), new ioTypes.spin(o, { onlyWhenIdle: false })];
+        o.isDominator = true;
         o.on('dead', () => {
             /*let isAC;
             for (let instance of o.collisionArray) {
