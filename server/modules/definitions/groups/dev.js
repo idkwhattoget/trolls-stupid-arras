@@ -519,30 +519,6 @@ exports.moonGenerator = {
     }],  
 };
 
-exports.sentryGunGenerator = {
-    PARENT: ["sextator"],
-    LABEL: "Gun Sentry Generator",
-    SKILL_CAP: [255, 0, 0, 0, 0, 0, 0, 0, 0, 255],
-    SKILL: [255, 0, 0, 0, 0, 0, 0, 0, 0, 255],
-    TURRETS: [{
-        POSITION: [5, 0, 0, 0, 0, 1],
-        TYPE: "fakeSentryGun",
-    }],
-    GUNS: [{
-        POSITION: [14, 12, 1, 4, 0, 0, 0],
-        PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, g.fake]),
-            TYPE: "bullet"
-        }
-    }, {
-        POSITION: [12, 12, 1.4, 4, 0, 0, 0],
-        PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, { recoil: 0 }]),
-            INDEPENDENT_CHILDREN: true,
-            TYPE: "sentryGun"
-        },
-    }],  
-};
 
 exports.diamondShape = {
     PARENT: ["basic"],
@@ -1515,7 +1491,6 @@ exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "spectator", "levels", "
         exports.eternals.UPGRADES_TIER_0 = ["ragnarok", "kronos"];
         exports.devBosses.UPGRADES_TIER_0 = ["taureonBoss", "zenphiaBoss", "dogeiscutBoss", "trplnrBoss"];
 
-    exports.tools.UPGRADES_TIER_0 = ["spectator", "levels", "teams", "eggGenerator", "rockGenerator", "sentryGunGenerator"];
         exports.rockGenerator.UPGRADES_TIER_0 = [
             "developer"     , "stoneGenerator"   , "tools",
             "basic"         , "rockGenerator"    , "gravelGenerator",
