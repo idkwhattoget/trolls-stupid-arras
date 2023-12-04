@@ -981,57 +981,177 @@ exports.spamOctoTank = {
         {
             POSITION: [18, 8, 1, 0, 0, 0, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op]),
                 TYPE: "bullet",
             },
         },
         {
             POSITION: [18, 8, 1, 0, 0, 90, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op]),
                 TYPE: "bullet",
             },
         },
         {
             POSITION: [18, 8, 1, 0, 0, 180, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op]),
                 TYPE: "bullet",
             },
         },
         {
             POSITION: [18, 8, 1, 0, 0, 270, 0],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op]),
                 TYPE: "bullet",
             },
         },
         {
             POSITION: [18, 8, 1, 0, 0, 45, 0.5],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op]),
                 TYPE: "bullet",
             },
         },
         {
             POSITION: [18, 8, 1, 0, 0, 135, 0.5],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op]),
                 TYPE: "bullet",
             },
         },
         {
             POSITION: [18, 8, 1, 0, 0, 225, 0.5],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op]),
                 TYPE: "bullet",
             },
         },
         {
             POSITION: [18, 8, 1, 0, 0, 315, 0.5],
             PROPERTIES: {
-                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod]),
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op]),
                 TYPE: "bullet",
+            },
+        },
+    ],
+};
+exports.peis = {
+    PARENT: ["miniboss"],
+    LABEL: "penis",
+    DANGER: 7,
+    SIZE: 12*4,
+    GUNS: [
+        {
+            POSITION: [18, 8, 1, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op, g.op, g.op, g.op, g.op]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 90, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op, g.op, g.op, g.op, g.op]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 180, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op, g.op, g.op, g.op, g.op]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 270, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op, g.op, g.op, g.op, g.op]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 45, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 135, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 225, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 315, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op, g.op, g.op, g.op, g.op]),
+                TYPE: "trap",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 90, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op, g.op, g.op, g.op, g.op]),
+                TYPE: "trap",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 180, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op, g.op, g.op, g.op, g.op]),
+                TYPE: "trap",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 270, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op, g.op, g.op, g.op, g.op]),
+                TYPE: "trap",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 45, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op]),
+                TYPE: "trap",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 135, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op]),
+                TYPE: "trap",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 225, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op]),
+                TYPE: "trap",
+            },
+        },
+        {
+            POSITION: [18, 8, 1, 0, 0, 315, 0.5],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.flank, g.flank, g.spam, g.ohgod, g.op]),
+                TYPE: "trap",
             },
         },
     ],
@@ -1406,11 +1526,11 @@ exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "spectator", "levels", "
             exports.gravelGenerator.UPGRADES_TIER_0 = exports.rockGenerator.UPGRADES_TIER_0;
 
     exports.testing.UPGRADES_TIER_0 = ["funTanks", "testingTanks", "legacyTanks"];
-        exports.funTanks.UPGRADES_TIER_0 = ["florr_tank", "vanquisher", "armyOfOne", "godbasic", "maximumOverdrive", "meonwaymytodoyourmom", "medoingyourmom", "mummifier", "auraBasic", "auraHealer", "weirdAutoBasic", "ghoster", "switcheroo", "tracker3", "splitTanks", "tank", "spamOctoTank", "lambo", "bugatti", "ssc"];
+        exports.funTanks.UPGRADES_TIER_0 = ["florr_tank", "vanquisher", "armyOfOne", "godbasic", "maximumOverdrive", "meonwaymytodoyourmom", "medoingyourmom", "mummifier", "auraBasic", "auraHealer", "weirdAutoBasic", "ghoster", "switcheroo", "tracker3", "splitTanks", "tank", "spamOctoTank", "lambo", "bugatti", "ssc", "peis"];
             exports.splitTanks.UPGRADES_TIER_0 = [["developer", "basic"], ["developer", "developer"], ["aura", "basic"], ["aura", "basic"]];
         exports.testingTanks.UPGRADES_TIER_0 = ["diamondShape", "rotatedTrap", "colorMan", "miscTest", "mmaTest", "vulnturrettest", "onTest", "alphaGunTest"];
         exports.legacyTanks.UPGRADES_TIER_0 = ["weirdSpike", "oldBentBoomer", "quadBuilder", "master", "blunderbuss", "oldRimfire", "oldSpreadshot", "oldCommander", "autoTrapper", "prodigy", "mender", "tetraGunner", "corvette", "whirlwind", "flail"];
     exports.testing.UPGRADES_TIER_0 = ["funTanks", "testingTanks"];
-        exports.funTanks.UPGRADES_TIER_0 = ["florr_tank", "vanquisher", "armyOfOne", "godbasic", "maximumOverdrive", "mummifier", "auraBasic", "auraHealer", "weirdAutoBasic", "ghoster", "switcheroo", "tracker3", ["developer", "developer"]];
+        //exports.funTanks.UPGRADES_TIER_0 = ["florr_tank", "vanquisher", "armyOfOne", "godbasic", "maximumOverdrive", "mummifier", "auraBasic", "auraHealer", "weirdAutoBasic", "ghoster", "switcheroo", "tracker3", ["developer", "developer"]];
         exports.testingTanks.UPGRADES_TIER_0 = ["diamondShape", "rotatedTrap", "colorMan", "miscTest", "mmaTest", "vulnturrettest", "onTest", "alphaGunTest", "testLayeredBoss"];
         exports.legacyTanks.UPGRADES_TIER_0 = ["weirdSpike", "oldBentBoomer", "quadBuilder", "master", "blunderbuss", "oldRimfire", "oldSpreadshot", "oldCommander", "autoTrapper", "prodigy", "mender", "tetraGunner", "corvette", "whirlwind", "flail"];
