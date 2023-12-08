@@ -59,7 +59,7 @@ module.exports = ({ Class }) => {
 
 
     // Comment out the line below to enable this addon, uncomment it to disable this addon (WARNING: Increases load time by approximately 2x).
-	//return console.log('--- Arms Race addon [armsRace.js] is disabled. See lines 60-61 to enable it. ---');
+	return console.log('--- Arms Race addon [armsRace.js] is disabled. See lines 60-61 to enable it. ---');
     //needed turrets
     Class.megaAutoTurret = {
         PARENT: "genericTank",

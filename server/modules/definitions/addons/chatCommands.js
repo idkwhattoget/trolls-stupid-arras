@@ -281,6 +281,17 @@ module.exports = ({ Events, Class }) => {
 					return socket.talk('m', `Current ${arg.toLowerCase()}: ${socket.player.body[arg]}`);
 				}
 			} break;
+			case 'shape': {
+				// /shape [VALUE]
+				if (args.length < 1 || args.length > 2) return fail();
+				const arg = args[0].toUpperCase();
+				if (args.length == 1) {
+					socket.player.SHAPE = Number(args[0]);
+				} else {
+					preventDefault();
+					return socket.talk('m', `Current SHAPE: ${socket.player.SHAPE}`);
+				}
+			} break;
 			case 'team':
 				// /team [TEAM]
 				if (args.length == 0) {
