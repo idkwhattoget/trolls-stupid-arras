@@ -1291,6 +1291,35 @@ exports.arenaAnnihilator = {
         }
     }]
 };
+exports.arenaAnnihilator = {
+    PARENT: ["genericTank"],
+    LABEL: "Arena Annihilator",
+    NAME: "Arena Annihilator",
+    DANGER: 10,
+    SIZE: 34,
+    COLOR: 3,
+    LAYER: 13,
+    BODY: {
+        REGEN: 1e5,
+        HEALTH: 1e6,
+        DENSITY: 30,
+        DAMAGE: 1e5,
+        FOV: 10,
+        SPEED: 8,
+    },
+    SKILL_CAP: Array(10).fill(255),
+    SKILL: Array(10).fill(255),
+    DRAW_HEALTH: false,
+    HITS_OWN_TYPE: "never",
+    ARENA_CLOSER: true,
+    GUNS: [{
+        POSITION: [20.5, 19.5, 1, 0, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.opCloser]),
+            TYPE: [ "bullet", { LAYER: 12 } ]
+        }
+    }]
+};
 
 exports.antiTankMachineGunArm = {
     PARENT: ["genericTank"],
