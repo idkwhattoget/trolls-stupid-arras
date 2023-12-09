@@ -519,6 +519,31 @@ exports.moonGenerator = {
     }],  
 };
 
+exports.cursedGenerator = {
+    PARENT: ["sextator"],
+    LABEL: "Cursed Generator",
+    SKILL_CAP: [255, 0, 0, 0, 0, 0, 0, 0, 0, 255],
+    SKILL: [255, 0, 0, 0, 0, 0, 0, 0, 0, 255],
+    TURRETS: [{
+        POSITION: [5, 0, 0, 0, 0, 1],
+        TYPE: "cursed",
+    }],
+    GUNS: [{
+        POSITION: [14, 12, 1, 4, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, g.fake]),
+            TYPE: "bullet"
+        }
+    }, {
+        POSITION: [12, 12, 1.4, 4, 0, 0, 0],
+        PROPERTIES: {
+            SHOOT_SETTINGS: combineStats([g.basic, { recoil: 0 }]),
+            INDEPENDENT_CHILDREN: true,
+            TYPE: "cursed"
+        },
+    }],  
+};
+
 
 exports.diamondShape = {
     PARENT: ["basic"],
@@ -1473,7 +1498,12 @@ exports.addons = {
     UPGRADES_TIER_0: []
 };
 
-exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "spectator", "levels", "teams", "eggGenerator", "rockGenerator", "testing", "addons"];
+exports.generators = {
+    PARENT: "menu",
+    LABEL: "Generators"
+};
+
+exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "spectator", "levels", "teams", "generators", "rockGenerator", "testing", "addons"];
     exports.tanks.UPGRADES_TIER_0 = ["basic", "healer", "spectator", "dominators", "sanctuaries", "mothership", "baseProtector", "antiTankMachineGun", "arenaCloser", "arenaAnnihilator"];
         //exports.unavailable.UPGRADES_TIER_0 = ["healer"];
         exports.dominators.UPGRADES_TIER_0 = ["destroyerDominator", "gunnerDominator", "trapperDominator"];
@@ -1490,7 +1520,8 @@ exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "spectator", "levels", "
         exports.celestials.UPGRADES_TIER_0 = ["paladin", "freyja", "zaphkiel", "nyx", "theia", "atlas", "rhea", "julius", "ghengis", "napoleon"];
         exports.eternals.UPGRADES_TIER_0 = ["ragnarok", "kronos"];
         exports.devBosses.UPGRADES_TIER_0 = ["taureonBoss", "zenphiaBoss", "dogeiscutBoss", "trplnrBoss"];
-
+    
+    exports.generators.UPGRADES_TIER_0 = ["eggGenerator", "rockGenerator", "cursedGenerator"];
         exports.rockGenerator.UPGRADES_TIER_0 = [
             "developer"     , "stoneGenerator"   , "tools",
             "basic"         , "rockGenerator"    , "gravelGenerator",

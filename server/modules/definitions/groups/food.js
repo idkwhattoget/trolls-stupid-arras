@@ -538,6 +538,27 @@ exports.tesseract = {
     GIVE_KILL_MESSAGE: true
 };
 
+// wtf
+exports.cursed = {
+    PARENT: ["food"],
+    LABEL: "The Very Cursed Polygon",
+    VALUE: 9e10,
+    SIZE: 10,
+    COLOR: "white",
+    SHAPE: "[[-0.772,-0.748],[-0.43,0.15],[0.913,-0.38],[0.39,-1.16],[-0.4,-1.39],[-0.76,-1.573],[-1.05,-1.39],[-1.62,-1.32],[-1.98,-0.26],[-1.16,0.37],[-0.85,-0.03],[-1.33,-0.44],[-1.43,-1.01],[-1.24,-1.11],[-0.73,-1.34],[0.2,-0.8],[-0.13,-0.457],[-0.27,-0.16],[-0.514,-0.84],[-0.615,-0.626],[-0.79,-1.07],[-0.96,-1.15],[-1.25,-0.895],[-1.053,-0.47],[-0.91,-0.53],[-0.907,-0.705]]",
+    BODY: {
+        DAMAGE: 12,
+        DENSITY: 20,
+        HEALTH: 500,
+        PENETRATION: 17.5,
+        ACCELERATION: 0.002
+    },
+    DRAW_HEALTH: true,
+    INTANGIBLE: false,
+    GIVE_KILL_MESSAGE: true,
+};
+
+
 // LABY
 for (let tier = 0; tier < 6; tier++) {
     for (let poly of [ "egg", "square", "triangle", "pentagon", "hexagon" ]) {
