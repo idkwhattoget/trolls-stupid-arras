@@ -1442,6 +1442,23 @@ exports.weirdAutoBasic = {
         }]
     }]
 };
+exports.baseCustomShape = {
+    PARENT: ["menu"],
+    LABEL: "Custom Shape",
+    GUNS: []
+}
+
+exports.customShape1 = {
+    PARENT: ["baseCustomShape"],
+    LABEL: "Custom Shape 1",
+    SHAPE: "M -1 2 L -1 0 L 0.759 -0.324 L 1.347 0.478 L -0.7 0.7 L -0.5 2 L -1 2 L -1.178 2.956 L 0.773 3.267 L 1.389 2.416 L 1.776 1.295 L 1.763 1.246 L -0.369 -1.127"
+}
+
+exports.customShapequestion = {
+    PARENT: ["baseCustomShape"],
+    LABEL: "Custom Shape?",
+    SHAPE: "https://media.licdn.com/dms/image/C4D0BAQErRW3WYyDfhg/company-logo_200_200/0/1643355315386/ea_telekomnikasyon_biliim_teknolojileri_logo?e=2147483647&v=beta&t=keyRx7zrOxJCgLiVva3geSPigYlH3y0EKM5Mk0MsF8Y"
+}
 
 exports.levels = {
     PARENT: ["menu"],
@@ -1503,6 +1520,11 @@ exports.generators = {
     LABEL: "Generators"
 };
 
+exports.customShapes = {
+    PARENT: ["menu"],
+    LABEL: "Custom Shapes"
+}
+
 exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "spectator", "levels", "teams", "generators", "rockGenerator", "testing", "addons"];
     exports.tanks.UPGRADES_TIER_0 = ["basic", "healer", "spectator", "dominators", "sanctuaries", "mothership", "baseProtector", "antiTankMachineGun", "arenaCloser", "arenaAnnihilator"];
         //exports.unavailable.UPGRADES_TIER_0 = ["healer"];
@@ -1521,7 +1543,7 @@ exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "spectator", "levels", "
         exports.eternals.UPGRADES_TIER_0 = ["ragnarok", "kronos"];
         exports.devBosses.UPGRADES_TIER_0 = ["taureonBoss", "zenphiaBoss", "dogeiscutBoss", "trplnrBoss"];
     
-    exports.generators.UPGRADES_TIER_0 = ["eggGenerator", "rockGenerator", "cursedGenerator"];
+    exports.generators.UPGRADES_TIER_0 = ["eggGenerator", "rockGenerator", "cursedGenerator", "cursed", "cube"];
         exports.rockGenerator.UPGRADES_TIER_0 = [
             "developer"     , "stoneGenerator"   , "tools",
             "basic"         , "rockGenerator"    , "gravelGenerator",
@@ -1537,7 +1559,8 @@ exports.developer.UPGRADES_TIER_0 = ["tanks", "bosses", "spectator", "levels", "
             exports.splitTanks.UPGRADES_TIER_0 = [["developer", "basic"], ["developer", "developer"], ["aura", "basic"], ["aura", "basic"]];
         exports.testingTanks.UPGRADES_TIER_0 = ["diamondShape", "rotatedTrap", "colorMan", "miscTest", "mmaTest", "vulnturrettest", "onTest", "alphaGunTest"];
         exports.legacyTanks.UPGRADES_TIER_0 = ["weirdSpike", "oldBentBoomer", "quadBuilder", "master", "blunderbuss", "oldRimfire", "oldSpreadshot", "oldCommander", "autoTrapper", "prodigy", "mender", "tetraGunner", "corvette", "whirlwind", "flail"];
-    exports.testing.UPGRADES_TIER_0 = ["funTanks", "testingTanks"];
+    exports.testing.UPGRADES_TIER_0 = ["funTanks", "testingTanks", "customShapes"];
         //exports.funTanks.UPGRADES_TIER_0 = ["florr_tank", "vanquisher", "armyOfOne", "godbasic", "maximumOverdrive", "mummifier", "auraBasic", "auraHealer", "weirdAutoBasic", "ghoster", "switcheroo", "tracker3", ["developer", "developer"]];
         exports.testingTanks.UPGRADES_TIER_0 = ["diamondShape", "rotatedTrap", "colorMan", "miscTest", "mmaTest", "vulnturrettest", "onTest", "alphaGunTest", "testLayeredBoss"];
         exports.legacyTanks.UPGRADES_TIER_0 = ["weirdSpike", "oldBentBoomer", "quadBuilder", "master", "blunderbuss", "oldRimfire", "oldSpreadshot", "oldCommander", "autoTrapper", "prodigy", "mender", "tetraGunner", "corvette", "whirlwind", "flail"];
+        exports.customShapes.UPGRADES_TIER_0 = ["baseCustomShape", "customShape1","customShapequestion"];
