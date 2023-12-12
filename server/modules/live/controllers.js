@@ -113,7 +113,7 @@ class io_listenToPlayer extends IO {
                 let thing = (0.02 * (this.body.autospinBoost * ((this.body.skill.spd / 4) + 0.5)));
                 if (this.player.command.lmb) thing = thing * 1.5;
                 if (this.player.command.rmb) thing = thing * -1;
-                kk += thing;
+                kk += thing / c.gameSpeed;
             }
             target = {
                 x: 100 * Math.cos(kk),
@@ -620,7 +620,7 @@ class io_spin extends IO {
             this.a = Math.atan2(input.target.y, input.target.x);
             return input;
         }
-        this.a += this.speed;
+        this.a += this.speed / c.runSpeed;
         let offset = (this.independent && this.body.bond != null) ? this.body.bound.angle : 0;
         return {
             target: {
@@ -696,6 +696,99 @@ class io_wanderAroundMap extends IO {
     }
 }
 
+// returns deviation from origin angle in radians
+let io_formulaTarget_sineDefault = (frame, body) => Math.sin(frame / 30);
+class io_formulaTarget extends IO {
+    constructor (b, opts = {}) {
+        super(b);
+        this.masterAngle = opts.masterAngle;
+        this.formula = opts.formula || io_formulaTarget_sineDefault;
+        //this.updateOriginAngle = opts.updateOriginAngle;
+        this.originAngle = this.masterAngle ? b.master.facing : b.facing;
+        this.frame = 0;
+    }
+    think () {
+        // if (this.updateOriginAngle) {
+        //     this.originAngle = this.masterAngle ? b.master.facing : getTheGunThatSpawnedMe("how do i do that????").angle;
+        // }
+
+        let angle = this.originAngle + this.formula(this.frame += 1 / c.runSpeed, this.body);
+        return {
+            goal: {
+                x: this.body.x + Math.sin(angle),
+                y: this.body.y + Math.cos(angle)
+            }
+        };
+    }
+}
+
+class io_orbit extends IO {
+    constructor (b, opts = {}) {
+        super(b);
+        this.radius = opts.radius || 3;
+        this.spin = opts.spin || 0.1;
+    }
+    think (input) {
+        let distance = this.body.master.size * this.radius,
+            angle = this.spin + Math.atan2(this.body.master.y - this.body.y, this.body.master.x - this.body.x);
+
+        //this.body.x = this.body.master.x + distance * Math.cos(angle);
+        //this.body.y = this.body.master.y + distance * Math.sin(angle);
+        let goalRelative = new Vector(this.body.master.x + distance * Math.cos(angle) - this.body.x, this.body.master.y + distance * Math.sin(angle) - this.body.y),
+            goalRelativeLength = goalRelative.length;
+        goalRelative.x /= goalRelativeLength;
+        goalRelative.y /= goalRelativeLength;
+        return {
+            goal: {
+                x: this.body.x + goalRelative.x,
+                y: this.body.y + goalRelative.y
+            }
+        };
+    }
+}
+class io_whirlwind extends IO {
+  constructor(body) {
+    super(body);
+    this.body.angle = 0
+    this.body.dist = 0
+  }
+  
+  think(input) {
+    this.body.angle += (this.body.skill.spd * 2 + this.body.aiSettings.SPEED) * Math.PI / 180;
+    if(input.fire){
+      if(this.body.dist!=110) this.body.dist = 110
+    }
+    else if(input.alt){
+      if(this.body.dist!=40) this.body.dist = 40
+    }
+    else{
+      if(this.body.dist!=70) this.body.dist = 70
+    }
+  }
+}
+class io_satellite extends IO {
+  constructor(body) {
+    super(body);
+    this.realDist = 0
+  }
+  
+  think(input) {
+    let master = this.body.master.master,
+        radius = this.body.angle * Math.PI / 180 + master.angle
+    
+    if(this.realDist>master.dist){
+      this.realDist-=10
+    }
+    else if(this.realDist<master.dist){
+      this.realDist+=10
+    }
+    this.body.x = master.x + Math.cos(radius) * this.realDist;
+        this.body.y = master.y + Math.sin(radius) * this.realDist;
+    
+    this.body.facing = radius
+  }
+}
+
 let ioTypes = {
     //misc
     zoom: io_zoom,
@@ -704,6 +797,7 @@ let ioTypes = {
     alwaysFire: io_alwaysFire,
     mapAltToFire: io_mapAltToFire,
     mapFireToAlt: io_mapFireToAlt,
+    whirlwind: io_whirlwind,
 
     //aiming related
     stackGuns: io_stackGuns,
@@ -718,6 +812,9 @@ let ioTypes = {
     bossRushAI: io_bossRushAI,
     moveInCircles: io_moveInCircles,
     boomerang: io_boomerang,
+    formulaTarget: io_formulaTarget,
+    orbit: io_orbit,
+    satellite: io_satellite,
     goToMasterTarget: io_goToMasterTarget,
     avoid: io_avoid,
     minion: io_minion,

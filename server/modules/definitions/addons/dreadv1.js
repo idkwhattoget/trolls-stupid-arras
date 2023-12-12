@@ -151,13 +151,14 @@ module.exports = ({ Class }) => {
 	    LABEL: "Dreadnought",
 	    UPGRADE_LABEL: "Dreads V1",
 		LEVEL: 150,
-		EXTRA_SKILL: 48,
+		EXTRA_SKILL: 47,
 	}
 
 	// T1
 	Class.swordOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Sword",
+		UPGRADE_TOOLTIP: "Snipers",
 	    GUNS: [],
 	}
 	for (let i = 0; i < 3; i++) {
@@ -173,6 +174,7 @@ module.exports = ({ Class }) => {
 	Class.pacifierOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Pacifier",
+		UPGRADE_TOOLTIP: "Bullet Spam",
 	    GUNS: [],
 	}
 	for (let i = 0; i < 3; i++) {
@@ -188,6 +190,7 @@ module.exports = ({ Class }) => {
 	Class.invaderOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Invader",
+		UPGRADE_TOOLTIP: "Drones",
 	    GUNS: [],
 	}
 	for (let i = 0; i < 3; i++) {
@@ -208,6 +211,7 @@ module.exports = ({ Class }) => {
 	Class.centaurOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Centaur",
+		UPGRADE_TOOLTIP: "Traps",
 	    GUNS: [],
 	}
 	for (let i = 0; i < 3; i++) {
@@ -226,6 +230,7 @@ module.exports = ({ Class }) => {
 	Class.automationOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Automation",
+		UPGRADE_TOOLTIP: "Auto Turrets",
 	    TURRETS: [],
 	}
 	for (let i = 0; i < 6; i++) {
@@ -242,6 +247,7 @@ module.exports = ({ Class }) => {
 	Class.juggernautOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Juggernaut",
+		UPGRADE_TOOLTIP: "Health Buff",
 	    BODY: {
 	        HEALTH: 2,
 	        SHIELD: 3,
@@ -256,6 +262,7 @@ module.exports = ({ Class }) => {
 	Class.medicareOfficialV1 = {
 		PARENT: ["genericDreadnought1"],
 	    LABEL: "Medicare",
+		UPGRADE_TOOLTIP: "Healing",
 	    TURRETS: [{
 			POSITION: [8, 0, 0, 0, 360, 1],
 			TYPE: "medicareTurret",
@@ -266,6 +273,7 @@ module.exports = ({ Class }) => {
 	Class.sabreOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Sabre",
+		UPGRADE_TOOLTIP: "Assassins",
 	    GUNS: [],
 	}
 	for (let i = 0; i < 3; i++) {
@@ -282,6 +290,7 @@ module.exports = ({ Class }) => {
 	Class.gladiusOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Gladius",
+		UPGRADE_TOOLTIP: "Rifles",
 	    GUNS: [],
 	}
 	for (let i = 0; i < 3; i++) {
@@ -299,19 +308,20 @@ module.exports = ({ Class }) => {
 	Class.appeaserOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Appeaser",
+		UPGRADE_TOOLTIP: "Machine Guns",
 	    GUNS: [],
 	}
 	for (let i = 0; i < 3; i++) {
 	    Class.appeaserOfficialV1.GUNS.push({
 	        POSITION: [6, 8, 1.3, 7, 0, 120*i, 0],
 	        PROPERTIES: {
-	            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.pound, g.morereload, g.slow, {size: 0.55}]),
+	            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.twin, g.pound, g.doublereload, g.slow, g.bitlessspeed, {size: 0.55}]),
 	            TYPE: "bullet"
 	        }
 	    }, {
 	        POSITION: [6, 7.5, 1.2, 9, 0, 120*i, 0],
 	        PROPERTIES: {
-	            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.pound, g.morereload, g.slow, {size: 0.55 * 8 / 7.5}]),
+	            SHOOT_SETTINGS: combineStats([g.basic, g.mach, g.twin, g.pound, g.doublereload, g.slow, g.bitlessspeed, {size: 0.55 * 8 / 7.5}]),
 	            TYPE: "bullet"
 	        }
 	    });
@@ -319,6 +329,7 @@ module.exports = ({ Class }) => {
 	Class.peacekeeperOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Peacekeeper",
+		UPGRADE_TOOLTIP: "Heavy Bullets",
 	    GUNS: [],
 	}
 	for (let i = 0; i < 3; i++) {
@@ -333,25 +344,26 @@ module.exports = ({ Class }) => {
 	Class.diplomatOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Diplomat",
+		UPGRADE_TOOLTIP: "Triplets",
 	    GUNS: [],
 	}
 	for (let i = 0; i < 3; i++) {
 	    Class.diplomatOfficialV1.GUNS.push({
 	        POSITION: [13.5, 6, 1, 0, 2.2, 120*i, 0.5],
 	        PROPERTIES: {
-	            SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.triple, g.slow, g.pound, g.morereload]),
+	            SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.twin, g.triple, g.slow, g.pound, g.doublereload]),
 	            TYPE: "bullet"
 	        }
 	    }, {
 	        POSITION: [13.5, 6, 1, 0, -2.2, 120*i, 0.5],
 	        PROPERTIES: {
-	            SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.triple, g.slow, g.pound, g.morereload]),
+	            SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.twin, g.triple, g.slow, g.pound, g.doublereload]),
 	            TYPE: "bullet"
 	        }
 	    }, {
-	        POSITION: [15.5, 6, 1, 0, 0, 120*i, 0],
+	        POSITION: [15, 6, 1, 0, 0, 120*i, 0],
 	        PROPERTIES: {
-	            SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.triple, g.slow, g.pound, g.morereload]),
+	            SHOOT_SETTINGS: combineStats([g.basic, g.twin, g.twin, g.triple, g.slow, g.pound, g.doublereload]),
 	            TYPE: "bullet"
 	        }
 	    });
@@ -360,13 +372,14 @@ module.exports = ({ Class }) => {
 	Class.inquisitorOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Inquisitor",
+		UPGRADE_TOOLTIP: "Drones",
 	    GUNS: [],
 	}
 	for (let i = 0; i < 3; i++) {
 	    Class.inquisitorOfficialV1.GUNS.push({
 	        POSITION: [7, 8.5, 1.3, 7.5, 0, 120*i, 0],
 	        PROPERTIES: {
-	            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.morespeed, g.battle, {SIZE: 1.25}]),
+	            SHOOT_SETTINGS: combineStats([g.drone, g.over, g.morespeed, g.morespeed, g.weak, g.battle, {SIZE: 1.25}]),
 	            TYPE: "drone",
 	            AUTOFIRE: true,
 	            SYNCS_SKILLS: true,
@@ -379,6 +392,7 @@ module.exports = ({ Class }) => {
 	Class.assailantOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Assailant",
+		UPGRADE_TOOLTIP: "Minions",
 	    GUNS: [],
 	}
 	for (let i = 0; i < 3; i++) {
@@ -401,27 +415,28 @@ module.exports = ({ Class }) => {
 	Class.infiltratorOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Infiltrator",
+		UPGRADE_TOOLTIP: "Swarms",
 	    GUNS: [],
 	}
 	for (let i = 0; i < 3; i++) {
 	    Class.infiltratorOfficialV1.GUNS.push({
 	        POSITION: [7, 6, 0.6, 5.5, 2.8, 120*i, 0.5],
 	        PROPERTIES: {
-	            SHOOT_SETTINGS: combineStats([g.swarm, g.battle, g.carrier, g.pound]),
+	            SHOOT_SETTINGS: combineStats([g.swarm, g.weak, g.carrier, g.morespeed, {speed: 0.75, range: 1.9}]),
 	            TYPE: "swarm",
 	            STAT_CALCULATOR: gunCalcNames.swarm
 	        }
 	    }, {
 	        POSITION: [7, 6, 0.6, 5.5, -2.8, 120*i, 0.5],
 	        PROPERTIES: {
-	            SHOOT_SETTINGS: combineStats([g.swarm, g.battle, g.carrier, g.pound]),
+	            SHOOT_SETTINGS: combineStats([g.swarm, g.weak, g.carrier, g.morespeed, {speed: 0.75, range: 1.9}]),
 	            TYPE: "swarm",
 	            STAT_CALCULATOR: gunCalcNames.swarm
 	        }
 	    }, {
 	        POSITION: [7, 6, 0.6, 8, 0, 120*i, 0],
 	        PROPERTIES: {
-	            SHOOT_SETTINGS: combineStats([g.swarm, g.battle, g.carrier, g.pound]),
+	            SHOOT_SETTINGS: combineStats([g.swarm, g.weak, g.carrier, g.morespeed, {speed: 0.75, range: 1.9}]),
 	            TYPE: "swarm",
 	            STAT_CALCULATOR: gunCalcNames.swarm
 	        }
@@ -431,6 +446,7 @@ module.exports = ({ Class }) => {
 	Class.cerberusOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Cerberus",
+		UPGRADE_TOOLTIP: "Trap Spam",
 	    GUNS: [],
 	}
 	for (let i = 0; i < 3; i++) {
@@ -466,6 +482,7 @@ module.exports = ({ Class }) => {
 	Class.minotaurOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Minotaur",
+		UPGRADE_TOOLTIP: "Blocks",
 	    GUNS: [],
 	}
 	for (let i = 0; i < 3; i++) {
@@ -501,6 +518,7 @@ module.exports = ({ Class }) => {
 	Class.mechanismOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Mechanism",
+		UPGRADE_TOOLTIP: "Auto Turrets",
 	    TURRETS: [],
 	}
 	for (let i = 0; i < 6; i++) {
@@ -517,6 +535,7 @@ module.exports = ({ Class }) => {
 	Class.behemothOfficialV1 = {
 	    PARENT: ["genericDreadnought1"],
 	    LABEL: "Behemoth",
+		UPGRADE_TOOLTIP: "Health Buff",
 	    BODY: {
 	        HEALTH: 4,
 	        SHIELD: 5,
@@ -531,6 +550,7 @@ module.exports = ({ Class }) => {
 	Class.medicaidOfficialV1 = {
 		PARENT: ["genericDreadnought1"],
 	    LABEL: "Medicaid",
+		UPGRADE_TOOLTIP: "Healing",
 	    TURRETS: [{
 			POSITION: [8, 0, 0, 0, 360, 1],
 			TYPE: "medicaidTurret",
@@ -559,10 +579,12 @@ module.exports = ({ Class }) => {
 			let GUNS = [],
 				TURRETS = [],
 				LABEL = primary.LABEL + "-" + secondary.LABEL,
-				BODY = JSON.parse(JSON.stringify(dreadnoughtBody));
+				BODY = JSON.parse(JSON.stringify(dreadnoughtBody)),
+				UPGRADE_TOOLTIP = (primary.UPGRADE_TOOLTIP ?? "") + " + " + (secondary.UPGRADE_TOOLTIP ?? "");
 
 			// Label it
 			if (primary.LABEL == secondary.LABEL) LABEL = primary.LABEL;
+			if (primary.UPGRADE_TOOLTIP == secondary.UPGRADE_TOOLTIP) UPGRADE_TOOLTIP = primary.UPGRADE_TOOLTIP;
 
 			// Guns
 			if (primary.GUNS) GUNS.push(...primary.GUNS);
@@ -588,7 +610,7 @@ module.exports = ({ Class }) => {
 			Class[definitionName] = {
 				PARENT: ["genericDreadnought1"],
 				UPGRADES_TIER_2: [],
-				BODY, LABEL, GUNS, TURRETS
+				BODY, LABEL, UPGRADE_TOOLTIP, GUNS, TURRETS,
 			};
 			Class[primaryName].UPGRADES_TIER_1.push(definitionName);
 
@@ -604,10 +626,12 @@ module.exports = ({ Class }) => {
 					let GUNS = [],
 						TURRETS = [],
 						LABEL = primary2.LABEL + "-" + secondary2.LABEL,
-						BODY = JSON.parse(JSON.stringify(dreadnoughtBody));
+						BODY = JSON.parse(JSON.stringify(dreadnoughtBody)),
+						UPGRADE_TOOLTIP = (primary2.UPGRADE_TOOLTIP ?? "") + " + " + (secondary2.UPGRADE_TOOLTIP ?? "");
 
 					// Label it
 					if (primary2.LABEL == secondary2.LABEL) LABEL = primary2.LABEL;
+					if (primary2.UPGRADE_TOOLTIP == secondary2.UPGRADE_TOOLTIP) UPGRADE_TOOLTIP = primary2.UPGRADE_TOOLTIP;
 
 					// Guns
 					if (primary2.GUNS) GUNS.push(...primary2.GUNS);
@@ -632,7 +656,7 @@ module.exports = ({ Class }) => {
 					// Actually make that guy
 					Class[definitionName2] = {
 						PARENT: ["genericDreadnought1"],
-						BODY, LABEL, GUNS, TURRETS
+						BODY, LABEL, UPGRADE_TOOLTIP, GUNS, TURRETS
 					};
 					Class[definitionName].UPGRADES_TIER_2.push(definitionName2);
 				}

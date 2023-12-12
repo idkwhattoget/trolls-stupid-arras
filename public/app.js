@@ -124,7 +124,6 @@ function getMockups() {
     global.mockupLoading = new Promise(Resolve => {
         util.pullJSON("mockups").then(data => {
             global.mockups = data;
-            generateTankTree(global.mockups.find((r) => r.name === "Basic").index);
             console.log('Mockups loading complete.');
             Resolve();
         });
@@ -266,8 +265,8 @@ global.player = {
     nameColor: "#ffffff",
 };
 function calculateTarget() {
-    global.target.x = global.mouse.x * global.ratio - (global.player.screenx / global.screenWidth * window.canvas.width + window.canvas.width / 2);
-    global.target.y = global.mouse.y * global.ratio - (global.player.screeny / global.screenHeight * window.canvas.height + window.canvas.height / 2);
+    global.target.x = global.mouse.x - (global.player.screenx / global.screenWidth * window.canvas.width + window.canvas.width / 2);
+    global.target.y = global.mouse.y - (global.player.screeny / global.screenHeight * window.canvas.height + window.canvas.height / 2);
     if (window.canvas.reverseDirection) {
         global.target.x *= -1;
         global.target.y *= -1;
@@ -646,7 +645,7 @@ function drawPoly(context, centerX, centerY, radius, sides, angle = 0, borderles
     if (fill) context.fill();
     context.lineJoin = "round";
 }
-function drawTrapezoid(context, x, y, length, height, aspect, angle, borderless, fill, alpha) {
+function drawTrapezoid(context, x, y, length, height, aspect, angle, borderless, fill, alpha, position) {
     let h = [];
     h = aspect > 0 ? [height * aspect, height] : [height, -height * aspect];
 
@@ -654,13 +653,13 @@ function drawTrapezoid(context, x, y, length, height, aspect, angle, borderless,
     let points = [],
         sinT = Math.sin(angle),
         cosT = Math.cos(angle);
-    points.push([0, h[1]]);
-    points.push([length * 2, h[0]]);
-    points.push([length * 2, -h[0]]);
-    points.push([0, -h[1]]);
-
-    // Rotate it to the new angle via vector rotation
+    points.push([-position, h[1]]);
+    points.push([length * 2 - position, h[0]]);
+    points.push([length * 2 - position, -h[0]]);
+    points.push([-position, -h[1]]);
     context.globalAlpha = alpha;
+    
+    // Rotate it to the new angle via vector rotation
     context.beginPath();
     for (let point of points) {
         let newX = point[0] * cosT - point[1] * sinT + x,
@@ -730,7 +729,7 @@ const drawEntity = (baseColor, x, y, instance, ratio, alpha = 1, scale = 1, line
                 borderless = g.borderless,
                 fill = g.drawFill;
             gameDraw.setColor(context, gameDraw.mixColors(gunColor, render.status.getColor(), blend));
-            drawTrapezoid(context, xx + drawSize * gx, yy + drawSize * gy, drawSize * (g.length - positions[i]) / 2, (drawSize * g.width) / 2, g.aspect, g.angle + rot, borderless, fill, alpha);
+            drawTrapezoid(context, xx + drawSize * gx, yy + drawSize * gy, drawSize * g.length / 2, drawSize * g.width / 2, g.aspect, g.angle + rot, borderless, fill, alpha, drawSize * positions[i]);
         }
     }
     // Draw body
@@ -770,7 +769,7 @@ const drawEntity = (baseColor, x, y, instance, ratio, alpha = 1, scale = 1, line
                 borderless = g.borderless,
                 fill = g.drawFill;
             gameDraw.setColor(context, gameDraw.mixColors(gunColor, render.status.getColor(), blend));
-            drawTrapezoid(context, xx + drawSize * gx, yy + drawSize * gy, drawSize * (g.length - positions[i]) / 2, (drawSize * g.width) / 2, g.aspect, g.angle + rot, borderless, fill, alpha);
+            drawTrapezoid(context, xx + drawSize * gx, yy + drawSize * gy, drawSize * g.length / 2, drawSize * g.width / 2, g.aspect, g.angle + rot, borderless, fill, alpha, drawSize * positions[i]);
         }
     }
     // Draw turrets above usa
@@ -1634,6 +1633,35 @@ function drawAvailableUpgrades(spacing, alcoveSize) {
         drawBar(buttonX - m / 2, buttonX + m / 2, buttonY + h / 2, h, color.white);
         drawText(msg, buttonX, buttonY + h / 2, h - 2, color.guiwhite, "center", true);
         global.clickables.skipUpgrades.place(0, (buttonX - m / 2) * clickableRatio, buttonY * clickableRatio, m * clickableRatio, h * clickableRatio);
+
+        // Upgrade tooltip
+        let upgradeHoverIndex = global.clickables.upgrade.check({x: global.mouse.x, y: global.mouse.y});
+        if (upgradeHoverIndex > -1) {
+            let picture = util.getEntityImageFromMockup(gui.upgrades[upgradeHoverIndex][2], gui.color);
+            if (picture.upgradeTooltip.length > 0) {
+                let boxWidth = measureText(picture.name, alcoveSize / 10),
+                    boxX = global.mouse.x * global.screenWidth / window.canvas.width + 2,
+                    boxY = global.mouse.y * global.screenHeight / window.canvas.height + 2,
+                    boxPadding = 6,
+                    splitTooltip = picture.upgradeTooltip.split("\n"),
+                    textY = boxY + boxPadding + alcoveSize / 10;
+                
+                // Tooltip box width
+                for (let line of splitTooltip) boxWidth = Math.max(boxWidth, measureText(line, alcoveSize / 15));
+
+                // Draw tooltip box
+                gameDraw.setColor(ctx, color.dgrey);
+                ctx.lineWidth /= 1.5;
+                drawGuiRect(boxX, boxY, boxWidth + boxPadding * 3, alcoveSize * (splitTooltip.length + 1) / 10 + boxPadding * 3, false);
+                drawGuiRect(boxX, boxY, boxWidth + boxPadding * 3, alcoveSize * (splitTooltip.length + 1) / 10 + boxPadding * 3, true);
+                ctx.lineWidth *= 1.5;
+                drawText(picture.name, boxX + boxPadding * 1.5, textY, alcoveSize / 10, color.guiwhite);
+                for (let t of splitTooltip) {
+                    textY += boxPadding + alcoveSize / 15
+                    drawText(t, boxX + boxPadding * 1.5, textY, alcoveSize / 15, color.guiwhite);
+                }
+            }
+        }
     } else {
         global.canUpgrade = false;
         global.clickables.upgrade.hide();

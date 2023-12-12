@@ -171,6 +171,7 @@ exports.gem = {
     },
     DRAW_HEALTH: true,
     INTANGIBLE: false,
+    GIVE_KILL_MESSAGE: true,
 };
 exports.jewel = {
     PARENT: ["food"],
