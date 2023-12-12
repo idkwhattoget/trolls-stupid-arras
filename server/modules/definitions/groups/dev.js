@@ -1509,15 +1509,20 @@ exports.colors = {
     LABEL: "Color Switcher",
     UPGRADES_TIER_0: []
 };
-for (let i = 1; i <= 49; i++) {
+
+for (let i = 0; i <= 40; i++) {
     let COLOR = i;
     exports["color" + COLOR] = {
         PARENT: ["colors"],
         COLOR: COLOR,
-        LABEL: "Color " + TEAM
+        LABEL: "Color " + COLOR,
+        UPGRADE_COLOR: COLOR
     };
-    exports.colors.UPGRADES_TIER_0.push("color" + COLOR);
+    exports.color["color" + COLOR].UPGRADES_TIER_0.push("color" + COLOR);
+    
 }
+
+exports.colors.UPGRADES_TIER_0.push("color" + COLOR);
 
 exports.testing = {
     PARENT: ["menu"],
